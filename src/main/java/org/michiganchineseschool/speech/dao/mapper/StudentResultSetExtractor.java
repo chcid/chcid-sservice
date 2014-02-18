@@ -11,7 +11,7 @@ public class StudentResultSetExtractor implements ResultSetExtractor {
 	@Override
 	public Object extractData(ResultSet rs) throws SQLException {
 		Student student = new Student();
-		student.setId(rs.getString("ID"));
+		student.setIdstudent(rs.getString("IDSTUDENT"));
 		student.setChineseFirstName(rs.getString("CHINESE_FIRSTNAME"));
 		student.setChineseLastName(rs.getString("CHINESE_LASTNAME"));
 		student.setEnglishFirstName(rs.getString("ENGLISH_FIRSTNAME"));

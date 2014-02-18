@@ -14,8 +14,6 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<import resource="mongodb-context.xml" />
-
 	<!-- IMPORT APPLICATION SPRING MVC CONTROLLERS -->
 	<import resource="controllers-context.xml" />
 

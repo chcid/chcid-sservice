@@ -1,27 +1,18 @@
 package org.michiganchineseschool.speech.model;
 
 public class Student {
-	private String id;
+	private String idstudent;
 	private String chineseLastName;
 	private String chineseFirstName;
 	private String englishLastName;
 	private String englishFirstName;
-	private Student mentor;
 
-	public Student getMentor() {
-		return mentor;
+	public String getIdstudent() {
+		return idstudent;
 	}
 
-	public void setMentor(Student mentor) {
-		this.mentor = mentor;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setIdstudent(String id) {
+		this.idstudent = id;
 	}
 
 	public String getChineseLastName() {
