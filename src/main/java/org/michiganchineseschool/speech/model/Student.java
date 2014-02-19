@@ -6,6 +6,15 @@ public class Student {
 	private String chineseFirstName;
 	private String englishLastName;
 	private String englishFirstName;
+	private String gradYear;
+
+	public String getGradYear() {
+		return gradYear;
+	}
+
+	public void setGradYear(String gradYear) {
+		this.gradYear = gradYear;
+	}
 
 	public String getIdstudent() {
 		return idstudent;

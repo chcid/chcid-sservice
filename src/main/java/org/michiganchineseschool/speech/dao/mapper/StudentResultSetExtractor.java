@@ -16,6 +16,7 @@ public class StudentResultSetExtractor implements ResultSetExtractor {
 		student.setChineseLastName(rs.getString("CHINESE_LASTNAME"));
 		student.setEnglishFirstName(rs.getString("ENGLISH_FIRSTNAME"));
 		student.setEnglishLastName(rs.getString("ENGLISH_LASTNAME"));
+		student.setGradYear(rs.getString("GRAD_YEAR"));
 		return student;
 	}
 }
