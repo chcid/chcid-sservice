@@ -8,9 +8,9 @@ import org.michiganchineseschool.speech.service.DatabaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -40,6 +40,22 @@ public class StudentController {
 			@PathVariable(value = "idstudent") String idstudent)
 			throws Exception {
 		getDatabaseService().deleteStudent(idstudent);
+		return new BaseResponse();
+	}
+
+	@RequestMapping(value = "/student", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	BaseResponse insertStudent(@RequestBody Student student) throws Exception {
+		getDatabaseService().insertStudent(student);
+		return new BaseResponse();
+	}
+
+	@RequestMapping(value = "/student", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	BaseResponse updateStudent(@RequestBody Student student) throws Exception {
+		getDatabaseService().updateStudent(student);
 		return new BaseResponse();
 	}
 

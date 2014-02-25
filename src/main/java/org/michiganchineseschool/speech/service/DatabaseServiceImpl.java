@@ -26,4 +26,14 @@ public class DatabaseServiceImpl implements DatabaseService {
 		getStudentDao().delete(idstudent);
 	}
 
+	@Override
+	public void insertStudent(Student student) throws Exception {
+		getStudentDao().insertStudent(student);
+	}
+
+	@Override
+	public void updateStudent(Student student) throws Exception {
+		getStudentDao().updateStudent(student);
+	}
+
 }

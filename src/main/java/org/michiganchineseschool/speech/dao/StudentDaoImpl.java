@@ -27,6 +27,30 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
+	public void insertStudent(Student student) throws Exception {
+		String sql = "INSERT INTO STUDENT ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, GRAD_YEAR ) VALUES ( ?,?,?,?,? )";
+		getJdbcTemplate().update(
+				sql,
+				new Object[] { student.getChineseLastName(),
+						student.getChineseFirstName(),
+						student.getEnglishLastName(),
+						student.getEnglishFirstName(), student.getGradYear() });
+
+	}
+
+	@Override
+	public void updateStudent(Student student) throws Exception {
+		String sql = "UPDATE STUDENT SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, GRAD_YEAR = ? WHERE IDSTUDENT = ?";
+		getJdbcTemplate().update(
+				sql,
+				new Object[] { student.getChineseLastName(),
+						student.getChineseFirstName(),
+						student.getEnglishLastName(),
+						student.getEnglishFirstName(), student.getGradYear(),
+						student.getIdstudent() });
+	}
+
+	@Override
 	public void delete(String idstudent) throws Exception {
 		String sql = "DELETE FROM STUDENT WHERE IDSTUDENT = " + idstudent;
 		getJdbcTemplate().execute(sql);
