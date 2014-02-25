@@ -6,5 +6,6 @@ import org.michiganchineseschool.speech.model.Student;
 
 public interface DatabaseService {
 	public List<Student> getAllStudents() throws Exception;
+	public void deleteStudent(String idstudent) throws Exception;
 
 }

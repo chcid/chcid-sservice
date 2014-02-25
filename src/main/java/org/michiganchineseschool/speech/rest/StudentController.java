@@ -2,12 +2,17 @@ package org.michiganchineseschool.speech.rest;
 
 import java.util.List;
 
+import org.michiganchineseschool.speech.model.BaseResponse;
 import org.michiganchineseschool.speech.model.Student;
 import org.michiganchineseschool.speech.service.DatabaseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class StudentController {
@@ -22,15 +27,20 @@ public class StudentController {
 	}
 
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
 	List<Student> getAllStudents() throws Exception {
-		// Student student = new Student();
-		// student.setEnglishFirstName("Evelyn");
-		// student.setEnglishLastName("Chen");
-		// student.setChineseFirstName(" ¿‹∑");
-		// student.setChineseLastName("Íê");
-		// System.out.println("Called");
 		return getDatabaseService().getAllStudents();
+	}
+
+	@RequestMapping(value = "/student/{idstudent}", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	BaseResponse deleteStudent(
+			@PathVariable(value = "idstudent") String idstudent)
+			throws Exception {
+		getDatabaseService().deleteStudent(idstudent);
+		return new BaseResponse();
 	}
 
 }

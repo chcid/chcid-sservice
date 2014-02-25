@@ -1,6 +1,9 @@
 package org.michiganchineseschool.speech.model;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
+	static final long serialVersionUID = 1l;
 	private String idstudent;
 	private String chineseLastName;
 	private String chineseFirstName;

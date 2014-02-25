@@ -27,6 +27,12 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
+	public void delete(String idstudent) throws Exception {
+		String sql = "DELETE FROM STUDENT WHERE IDSTUDENT = " + idstudent;
+		getJdbcTemplate().execute(sql);
+	}
+
+	@Override
 	public List<Student> getAllStudents() throws Exception {
 		List<Student> students = new ArrayList<Student>();
 		String sql = "SELECT * FROM STUDENT";

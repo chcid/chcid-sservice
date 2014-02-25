@@ -16,8 +16,14 @@ public class DatabaseServiceImpl implements DatabaseService {
 		this.studentDao = studentDao;
 	}
 
+	@Override
 	public List<Student> getAllStudents() throws Exception {
 		return getStudentDao().getAllStudents();
+	}
+
+	@Override
+	public void deleteStudent(String idstudent) throws Exception {
+		getStudentDao().delete(idstudent);
 	}
 
 }
