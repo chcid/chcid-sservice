@@ -16,5 +16,8 @@
 	<bean id="studentDao" class="org.michiganchineseschool.speech.dao.StudentDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="staffDao" class="org.michiganchineseschool.speech.dao.StaffDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>

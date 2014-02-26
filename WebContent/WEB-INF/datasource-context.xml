@@ -33,5 +33,6 @@
 	<bean id="databaseService"
 		class="org.michiganchineseschool.speech.service.DatabaseServiceImpl">
 		<property name="studentDao" ref="studentDao" />
+		<property name="staffDao" ref="staffDao" />
 	</bean>
 </beans>

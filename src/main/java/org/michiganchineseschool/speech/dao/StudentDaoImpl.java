@@ -27,7 +27,7 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
-	public void insertStudent(Student student) throws Exception {
+	public void insert(Student student) throws Exception {
 		String sql = "INSERT INTO STUDENT ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, GRAD_YEAR ) VALUES ( ?,?,?,?,? )";
 		getJdbcTemplate().update(
 				sql,
@@ -39,7 +39,7 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
-	public void updateStudent(Student student) throws Exception {
+	public void update(Student student) throws Exception {
 		String sql = "UPDATE STUDENT SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, GRAD_YEAR = ? WHERE IDSTUDENT = ?";
 		getJdbcTemplate().update(
 				sql,
@@ -57,22 +57,8 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
-	public List<Student> getAllStudents() throws Exception {
-		List<Student> students = new ArrayList<Student>();
+	public List<Student> selectAll() throws Exception {
 		String sql = "SELECT * FROM STUDENT";
 		return getJdbcTemplate().query(sql, new StudentRowMapper());
-
-		// List<Map<String, Object>> rows = select.queryForList(sql);
-		//
-		// for (Map row : rows) {
-		// Student student = new Student();
-		// student.setId(Integer.parseInt(String.valueOf(row.get("ID"))));
-		// student.setChineseFirstName((String) row.get("CHINESE_FIRSTNAME"));
-		// student.setChineseLastName((String) row.get("CHINESE_LASTNAME"));
-		// student.setEnglishFirstName((String) row.get("ENGLISH_FIRSTNAME"));
-		// student.setEnglishLastName((String) row.get("ENGLISH_FIRSTNAME"));
-		// students.add(student);
-		// }
-		// return students;
 	}
 }

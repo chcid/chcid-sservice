@@ -23,4 +23,7 @@
 	<bean id="StudentController" class="org.michiganchineseschool.speech.rest.StudentController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+	<bean id="StaffController" class="org.michiganchineseschool.speech.rest.StaffController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 </beans>
