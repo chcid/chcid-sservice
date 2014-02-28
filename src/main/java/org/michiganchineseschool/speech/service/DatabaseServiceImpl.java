@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.michiganchineseschool.speech.dao.ContestDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
+import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.StaffDao;
 import org.michiganchineseschool.speech.dao.StudentDao;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.Location;
+import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 
@@ -16,6 +18,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private StaffDao staffDao;
 	private ContestDao contestDao;
 	private LocationDao locationDao;
+	private RoleDao roleDao;
+
+	public RoleDao getRoleDao() {
+		return roleDao;
+	}
+
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
 
 	public LocationDao getLocationDao() {
 		return locationDao;
@@ -108,7 +119,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 	public void updateContest(Contest record) throws Exception {
 		getContestDao().update(record);
 	}
-	
+
 	@Override
 	public List<Location> getAllLocations() throws Exception {
 		return getLocationDao().selectAll();
@@ -127,6 +138,26 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateLocation(Location record) throws Exception {
 		getLocationDao().update(record);
+	}
+
+	@Override
+	public List<Role> getAllRoles() throws Exception {
+		return getRoleDao().selectAll();
+	}
+
+	@Override
+	public void deleteRole(String id) throws Exception {
+		getRoleDao().delete(id);
+	}
+
+	@Override
+	public void insertRole(Role record) throws Exception {
+		getRoleDao().insert(record);
+	}
+
+	@Override
+	public void updateRole(Role record) throws Exception {
+		getRoleDao().update(record);
 	}
 
 }

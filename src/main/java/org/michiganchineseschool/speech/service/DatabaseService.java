@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.Location;
+import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 
@@ -39,5 +40,13 @@ public interface DatabaseService {
 	public void insertLocation(Location record) throws Exception;
 
 	public void updateLocation(Location record) throws Exception;
+
+	public List<Role> getAllRoles() throws Exception;
+
+	public void deleteRole(String id) throws Exception;
+
+	public void insertRole(Role record) throws Exception;
+
+	public void updateRole(Role record) throws Exception;
 
 }

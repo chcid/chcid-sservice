@@ -25,5 +25,8 @@
 	<bean id="locationDao" class="org.michiganchineseschool.speech.dao.LocationDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="roleDao" class="org.michiganchineseschool.speech.dao.RoleDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>

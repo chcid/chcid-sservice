@@ -33,4 +33,8 @@
 		class="org.michiganchineseschool.speech.rest.LocationController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+	<bean id="roleController" class="org.michiganchineseschool.speech.rest.RoleController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
+
 </beans>
