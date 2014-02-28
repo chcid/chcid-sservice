@@ -36,5 +36,13 @@
 	<bean id="roleController" class="org.michiganchineseschool.speech.rest.RoleController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+	<bean id="scoreCountingTypeController"
+		class="org.michiganchineseschool.speech.rest.ScoreCountingTypeController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
+	<bean id="scoreRuleController"
+		class="org.michiganchineseschool.speech.rest.ScoreRuleController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 
 </beans>

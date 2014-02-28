@@ -5,11 +5,15 @@ import java.util.List;
 import org.michiganchineseschool.speech.dao.ContestDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
+import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
+import org.michiganchineseschool.speech.dao.ScoreRuleDao;
 import org.michiganchineseschool.speech.dao.StaffDao;
 import org.michiganchineseschool.speech.dao.StudentDao;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.Location;
 import org.michiganchineseschool.speech.model.Role;
+import org.michiganchineseschool.speech.model.ScoreCountingType;
+import org.michiganchineseschool.speech.model.ScoreRule;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 
@@ -19,6 +23,25 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private ContestDao contestDao;
 	private LocationDao locationDao;
 	private RoleDao roleDao;
+	private ScoreCountingTypeDao scoreCountingTypeDao;
+	private ScoreRuleDao scoreRuleDao;
+
+	public ScoreRuleDao getScoreRuleDao() {
+		return scoreRuleDao;
+	}
+
+	public void setScoreRuleDao(ScoreRuleDao scoreRuleDao) {
+		this.scoreRuleDao = scoreRuleDao;
+	}
+
+	public ScoreCountingTypeDao getScoreCountingTypeDao() {
+		return scoreCountingTypeDao;
+	}
+
+	public void setScoreCountingTypeDao(
+			ScoreCountingTypeDao scoreCountingTypeDao) {
+		this.scoreCountingTypeDao = scoreCountingTypeDao;
+	}
 
 	public RoleDao getRoleDao() {
 		return roleDao;
@@ -158,6 +181,48 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateRole(Role record) throws Exception {
 		getRoleDao().update(record);
+	}
+
+	@Override
+	public List<ScoreCountingType> getAllScoreCountingTypes() throws Exception {
+		return getScoreCountingTypeDao().selectAll();
+	}
+
+	@Override
+	public void deleteScoreCountingType(String id) throws Exception {
+		getScoreCountingTypeDao().delete(id);
+	}
+
+	@Override
+	public void insertScoreCountingType(ScoreCountingType record)
+			throws Exception {
+		getScoreCountingTypeDao().insert(record);
+	}
+
+	@Override
+	public void updateScoreCountingType(ScoreCountingType record)
+			throws Exception {
+		getScoreCountingTypeDao().update(record);
+	}
+
+	@Override
+	public List<ScoreRule> getAllScoreRules() throws Exception {
+		return getScoreRuleDao().selectAll();
+	}
+
+	@Override
+	public void deleteScoreRule(String id) throws Exception {
+		getScoreRuleDao().delete(id);
+	}
+
+	@Override
+	public void insertScoreRule(ScoreRule record) throws Exception {
+		getScoreRuleDao().insert(record);
+	}
+
+	@Override
+	public void updateScoreRule(ScoreRule record) throws Exception {
+		getScoreRuleDao().update(record);
 	}
 
 }

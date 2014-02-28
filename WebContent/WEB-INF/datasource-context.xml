@@ -37,5 +37,7 @@
 		<property name="contestDao" ref="contestDao" />
 		<property name="locationDao" ref="locationDao" />
 		<property name="roleDao" ref="roleDao" />
+		<property name="scoreCountingTypeDao" ref="scoreCountingTypeDao" />
+		<property name="scoreRuleDao" ref="scoreRuleDao" />
 	</bean>
 </beans>
