@@ -39,5 +39,6 @@
 		<property name="roleDao" ref="roleDao" />
 		<property name="scoreCountingTypeDao" ref="scoreCountingTypeDao" />
 		<property name="scoreRuleDao" ref="scoreRuleDao" />
+		<property name="timeLimitRuleDao" ref="timeLimitRuleDao" />
 	</bean>
 </beans>

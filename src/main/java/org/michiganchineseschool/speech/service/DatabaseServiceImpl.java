@@ -9,6 +9,7 @@ import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
 import org.michiganchineseschool.speech.dao.ScoreRuleDao;
 import org.michiganchineseschool.speech.dao.StaffDao;
 import org.michiganchineseschool.speech.dao.StudentDao;
+import org.michiganchineseschool.speech.dao.TimeLimitRuleDao;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.Location;
 import org.michiganchineseschool.speech.model.Role;
@@ -16,6 +17,7 @@ import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
+import org.michiganchineseschool.speech.model.TimeLimitRule;
 
 public class DatabaseServiceImpl implements DatabaseService {
 	private StudentDao studentDao;
@@ -25,6 +27,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private RoleDao roleDao;
 	private ScoreCountingTypeDao scoreCountingTypeDao;
 	private ScoreRuleDao scoreRuleDao;
+	private TimeLimitRuleDao timeLimitRuleDao;
+
+	public TimeLimitRuleDao getTimeLimitRuleDao() {
+		return timeLimitRuleDao;
+	}
+
+	public void setTimeLimitRuleDao(TimeLimitRuleDao timeLimitRuleDao) {
+		this.timeLimitRuleDao = timeLimitRuleDao;
+	}
 
 	public ScoreRuleDao getScoreRuleDao() {
 		return scoreRuleDao;
@@ -223,6 +234,26 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateScoreRule(ScoreRule record) throws Exception {
 		getScoreRuleDao().update(record);
+	}
+
+	@Override
+	public List<TimeLimitRule> getAllTimeLimitRules() throws Exception {
+		return getTimeLimitRuleDao().selectAll();
+	}
+
+	@Override
+	public void deleteTimeLimitRule(String id) throws Exception {
+		getTimeLimitRuleDao().delete(id);
+	}
+
+	@Override
+	public void insertTimeLimitRule(TimeLimitRule record) throws Exception {
+		getTimeLimitRuleDao().insert(record);
+	}
+
+	@Override
+	public void updateTimeLimitRule(TimeLimitRule record) throws Exception {
+		getTimeLimitRuleDao().update(record);
 	}
 
 }
