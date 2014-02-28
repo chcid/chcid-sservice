@@ -2,6 +2,7 @@ package org.michiganchineseschool.speech.service;
 
 import java.util.List;
 
+import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 
@@ -21,5 +22,13 @@ public interface DatabaseService {
 	public void insertStaff(Staff staff) throws Exception;
 
 	public void updateStaff(Staff staff) throws Exception;
+
+	public List<Contest> getAllContests() throws Exception;
+
+	public void deleteContest(String id) throws Exception;
+
+	public void insertContest(Contest contest) throws Exception;
+
+	public void updateContest(Contest contest) throws Exception;
 
 }
