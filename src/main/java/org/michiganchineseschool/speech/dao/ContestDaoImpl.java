@@ -9,17 +9,17 @@ public class ContestDaoImpl extends BaseDaoImpl implements ContestDao {
 	private final static String TableName = "CONTEST";
 
 	@Override
-	public void insert(Contest contest) throws Exception {
+	public void insert(Contest record) throws Exception {
 		String sql = "INSERT INTO " + TableName + " ( NAME ) VALUES ( ? )";
-		getJdbcTemplate().update(sql, new Object[] { contest.getName() });
+		getJdbcTemplate().update(sql, new Object[] { record.getName() });
 	}
 
 	@Override
-	public void update(Contest contest) throws Exception {
+	public void update(Contest record) throws Exception {
 		String sql = "UPDATE " + TableName + " SET NAME = ? WHERE ID"
 				+ TableName + " = ?";
 		getJdbcTemplate().update(sql,
-				new Object[] { contest.getName(), contest.getIdcontest() });
+				new Object[] { record.getName(), record.getIdcontest() });
 	}
 
 	@Override
@@ -30,6 +30,6 @@ public class ContestDaoImpl extends BaseDaoImpl implements ContestDao {
 
 	@Override
 	public void delete(String id) throws Exception {
-		delete(id, "CONTEST");
+		delete(id, TableName);
 	}
 }

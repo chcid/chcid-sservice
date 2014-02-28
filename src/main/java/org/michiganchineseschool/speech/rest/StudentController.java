@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.michiganchineseschool.speech.model.BaseResponse;
 import org.michiganchineseschool.speech.model.Student;
-import org.michiganchineseschool.speech.service.DatabaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,16 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-public class StudentController {
-	private DatabaseService databaseService;
-
-	public DatabaseService getDatabaseService() {
-		return databaseService;
-	}
-
-	public void setDatabaseService(DatabaseService databaseService) {
-		this.databaseService = databaseService;
-	}
+public class StudentController extends BaseController {
 
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)

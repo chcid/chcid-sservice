@@ -1,64 +1,50 @@
 package org.michiganchineseschool.speech.dao;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.michiganchineseschool.speech.dao.mapper.StudentRowMapper;
 import org.michiganchineseschool.speech.model.Student;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-public class StudentDaoImpl implements StudentDao {
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
-
-	public JdbcTemplate getJdbcTemplate() {
-		if (null == jdbcTemplate) {
-			jdbcTemplate = new JdbcTemplate(dataSource);
-		}
-		jdbcTemplate.setResultsMapCaseInsensitive(true);
-		return jdbcTemplate;
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
+public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
+	private final static String TableName = "STUDENT";
 
 	@Override
-	public void insert(Student student) throws Exception {
-		String sql = "INSERT INTO STUDENT ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, GRAD_YEAR ) VALUES ( ?,?,?,?,? )";
+	public void insert(Student record) throws Exception {
+		String sql = "INSERT INTO "
+				+ TableName
+				+ " ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, GRAD_YEAR ) VALUES ( ?,?,?,?,? )";
 		getJdbcTemplate().update(
 				sql,
-				new Object[] { student.getChineseLastName(),
-						student.getChineseFirstName(),
-						student.getEnglishLastName(),
-						student.getEnglishFirstName(), student.getGradYear() });
+				new Object[] { record.getChineseLastName(),
+						record.getChineseFirstName(),
+						record.getEnglishLastName(),
+						record.getEnglishFirstName(), record.getGradYear() });
 
 	}
 
 	@Override
-	public void update(Student student) throws Exception {
-		String sql = "UPDATE STUDENT SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, GRAD_YEAR = ? WHERE IDSTUDENT = ?";
+	public void update(Student record) throws Exception {
+		String sql = "UPDATE "
+				+ TableName
+				+ " SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, GRAD_YEAR = ? WHERE ID"
+				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
-				new Object[] { student.getChineseLastName(),
-						student.getChineseFirstName(),
-						student.getEnglishLastName(),
-						student.getEnglishFirstName(), student.getGradYear(),
-						student.getIdstudent() });
+				new Object[] { record.getChineseLastName(),
+						record.getChineseFirstName(),
+						record.getEnglishLastName(),
+						record.getEnglishFirstName(), record.getGradYear(),
+						record.getIdstudent() });
 	}
 
 	@Override
-	public void delete(String idstudent) throws Exception {
-		String sql = "DELETE FROM STUDENT WHERE IDSTUDENT = " + idstudent;
-		getJdbcTemplate().execute(sql);
+	public void delete(String id) throws Exception {
+		delete(id, TableName);
 	}
 
 	@Override
 	public List<Student> selectAll() throws Exception {
-		String sql = "SELECT * FROM STUDENT";
+		String sql = "SELECT * FROM " + TableName;
 		return getJdbcTemplate().query(sql, new StudentRowMapper());
 	}
 }

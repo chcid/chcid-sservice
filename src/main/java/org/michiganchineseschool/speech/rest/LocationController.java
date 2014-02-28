@@ -3,7 +3,7 @@ package org.michiganchineseschool.speech.rest;
 import java.util.List;
 
 import org.michiganchineseschool.speech.model.BaseResponse;
-import org.michiganchineseschool.speech.model.Staff;
+import org.michiganchineseschool.speech.model.Location;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,38 +14,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping(value = "/staff")
-public class StaffController extends BaseController {
+@RequestMapping(value = "/location")
+public class LocationController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	List<Staff> getAllStaffss() throws Exception {
-		return getDatabaseService().getAllStaffs();
+	List<Location> getAllLocations() throws Exception {
+		return getDatabaseService().getAllLocations();
 	}
 
-	@RequestMapping(value = "/{idstaff}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse deleteStaff(@PathVariable(value = "idstaff") String idstaff)
+	BaseResponse deleteLocation(@PathVariable(value = "id") String id)
 			throws Exception {
-		getDatabaseService().deleteStaff(idstaff);
+		getDatabaseService().deleteLocation(id);
 		return new BaseResponse();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse insertStaff(@RequestBody Staff staff) throws Exception {
-		getDatabaseService().insertStaff(staff);
+	BaseResponse insertLocation(@RequestBody Location record) throws Exception {
+		getDatabaseService().insertLocation(record);
 		return new BaseResponse();
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse updateStudent(@RequestBody Staff staff) throws Exception {
-		getDatabaseService().updateStaff(staff);
+	BaseResponse updateStudent(@RequestBody Location record) throws Exception {
+		getDatabaseService().updateLocation(record);
 		return new BaseResponse();
 	}
 

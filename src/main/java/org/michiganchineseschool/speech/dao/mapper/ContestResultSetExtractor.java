@@ -10,9 +10,9 @@ public class ContestResultSetExtractor implements ResultSetExtractor<Contest> {
 
 	@Override
 	public Contest extractData(ResultSet rs) throws SQLException {
-		Contest contest = new Contest();
-		contest.setIdcontest(rs.getString("IDCONTEST"));
-		contest.setName(rs.getString("NAME"));
-		return contest;
+		Contest record = new Contest();
+		record.setIdcontest(rs.getString("IDCONTEST"));
+		record.setName(rs.getString("NAME"));
+		return record;
 	}
 }

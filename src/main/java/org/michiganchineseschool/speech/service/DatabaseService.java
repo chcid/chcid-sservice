@@ -3,6 +3,7 @@ package org.michiganchineseschool.speech.service;
 import java.util.List;
 
 import org.michiganchineseschool.speech.model.Contest;
+import org.michiganchineseschool.speech.model.Location;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 
@@ -30,5 +31,13 @@ public interface DatabaseService {
 	public void insertContest(Contest contest) throws Exception;
 
 	public void updateContest(Contest contest) throws Exception;
+
+	public List<Location> getAllLocations() throws Exception;
+
+	public void deleteLocation(String id) throws Exception;
+
+	public void insertLocation(Location record) throws Exception;
+
+	public void updateLocation(Location record) throws Exception;
 
 }

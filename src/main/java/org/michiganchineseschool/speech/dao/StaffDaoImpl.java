@@ -1,65 +1,49 @@
 package org.michiganchineseschool.speech.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.michiganchineseschool.speech.dao.mapper.StaffRowMapper;
-import org.michiganchineseschool.speech.dao.mapper.StudentRowMapper;
 import org.michiganchineseschool.speech.model.Staff;
-import org.michiganchineseschool.speech.model.Student;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-public class StaffDaoImpl implements StaffDao {
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
-
-	public JdbcTemplate getJdbcTemplate() {
-		if (null == jdbcTemplate) {
-			jdbcTemplate = new JdbcTemplate(dataSource);
-		}
-		jdbcTemplate.setResultsMapCaseInsensitive(true);
-		return jdbcTemplate;
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
+public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
+	private final static String TableName = "STAFF";
 
 	@Override
-	public void insert(Staff staff) throws Exception {
-		String sql = "INSERT INTO STAFF ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME ) VALUES ( ?,?,?,? )";
-		getJdbcTemplate()
-				.update(sql,
-						new Object[] { staff.getChineseLastName(),
-								staff.getChineseFirstName(),
-								staff.getEnglishLastName(),
-								staff.getEnglishFirstName() });
-
-	}
-
-	@Override
-	public void update(Staff staff) throws Exception {
-		String sql = "UPDATE STAFF SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ? WHERE IDSTAFF = ?";
+	public void insert(Staff record) throws Exception {
+		String sql = "INSERT INTO "
+				+ TableName
+				+ " ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME ) VALUES ( ?,?,?,? )";
 		getJdbcTemplate().update(
 				sql,
-				new Object[] { staff.getChineseLastName(),
-						staff.getChineseFirstName(),
-						staff.getEnglishLastName(),
-						staff.getEnglishFirstName(), staff.getIdstaff() });
+				new Object[] { record.getChineseLastName(),
+						record.getChineseFirstName(),
+						record.getEnglishLastName(),
+						record.getEnglishFirstName() });
+
 	}
 
 	@Override
-	public void delete(String idstaff) throws Exception {
-		String sql = "DELETE FROM STAFF WHERE IDSTAFF = " + idstaff;
-		getJdbcTemplate().execute(sql);
+	public void update(Staff record) throws Exception {
+		String sql = "UPDATE "
+				+ TableName
+				+ " SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ? WHERE ID"
+				+ TableName + " = ?";
+		getJdbcTemplate().update(
+				sql,
+				new Object[] { record.getChineseLastName(),
+						record.getChineseFirstName(),
+						record.getEnglishLastName(),
+						record.getEnglishFirstName(), record.getIdstaff() });
+	}
+
+	@Override
+	public void delete(String id) throws Exception {
+		delete(id, TableName);
 	}
 
 	@Override
 	public List<Staff> selectAll() throws Exception {
-		String sql = "SELECT * FROM STAFF";
+		String sql = "SELECT * FROM " + TableName;
 		return getJdbcTemplate().query(sql, new StaffRowMapper());
 	}
 }

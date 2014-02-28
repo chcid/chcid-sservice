@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.michiganchineseschool.speech.model.BaseResponse;
 import org.michiganchineseschool.speech.model.Contest;
-import org.michiganchineseschool.speech.service.DatabaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping(value = "/contest")
-public class ContestController {
-	private DatabaseService databaseService;
-
-	public DatabaseService getDatabaseService() {
-		return databaseService;
-	}
-
-	public void setDatabaseService(DatabaseService databaseService) {
-		this.databaseService = databaseService;
-	}
+public class ContestController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)

@@ -10,12 +10,12 @@ public class StaffResultSetExtractor implements ResultSetExtractor<Staff> {
 
 	@Override
 	public Staff extractData(ResultSet rs) throws SQLException {
-		Staff staff = new Staff();
-		staff.setIdstaff(rs.getString("IDSTAFF"));
-		staff.setChineseFirstName(rs.getString("CHINESE_FIRSTNAME"));
-		staff.setChineseLastName(rs.getString("CHINESE_LASTNAME"));
-		staff.setEnglishFirstName(rs.getString("ENGLISH_FIRSTNAME"));
-		staff.setEnglishLastName(rs.getString("ENGLISH_LASTNAME"));
-		return staff;
+		Staff record = new Staff();
+		record.setIdstaff(rs.getString("IDSTAFF"));
+		record.setChineseFirstName(rs.getString("CHINESE_FIRSTNAME"));
+		record.setChineseLastName(rs.getString("CHINESE_LASTNAME"));
+		record.setEnglishFirstName(rs.getString("ENGLISH_FIRSTNAME"));
+		record.setEnglishLastName(rs.getString("ENGLISH_LASTNAME"));
+		return record;
 	}
 }

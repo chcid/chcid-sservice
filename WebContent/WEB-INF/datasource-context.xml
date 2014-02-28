@@ -35,5 +35,6 @@
 		<property name="studentDao" ref="studentDao" />
 		<property name="staffDao" ref="staffDao" />
 		<property name="contestDao" ref="contestDao" />
+		<property name="locationDao" ref="locationDao" />
 	</bean>
 </beans>
