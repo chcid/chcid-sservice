@@ -13,4 +13,6 @@ public interface ScoreRuleDao {
 
 	public void delete(String id) throws Exception;
 
+	public ScoreRule select(String id) throws Exception;
+
 }

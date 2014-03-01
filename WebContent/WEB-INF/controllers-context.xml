@@ -44,10 +44,12 @@
 		class="org.michiganchineseschool.speech.rest.ScoreRuleController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
-
 	<bean id="timeLimitRuleController"
 		class="org.michiganchineseschool.speech.rest.TimeLimitRuleController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
-
+	<bean id="scoreRuleItemController"
+		class="org.michiganchineseschool.speech.rest.ScoreRuleItemController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 </beans>

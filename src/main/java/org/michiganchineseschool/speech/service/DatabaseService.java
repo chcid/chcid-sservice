@@ -7,6 +7,7 @@ import org.michiganchineseschool.speech.model.Location;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
+import org.michiganchineseschool.speech.model.ScoreRuleItem;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 import org.michiganchineseschool.speech.model.TimeLimitRule;
@@ -64,6 +65,8 @@ public interface DatabaseService {
 
 	public List<ScoreRule> getAllScoreRules() throws Exception;
 
+	public ScoreRule getScoreRuleById(String id) throws Exception;
+
 	public void deleteScoreRule(String id) throws Exception;
 
 	public void insertScoreRule(ScoreRule record) throws Exception;
@@ -77,5 +80,15 @@ public interface DatabaseService {
 	public void insertTimeLimitRule(TimeLimitRule record) throws Exception;
 
 	public void updateTimeLimitRule(TimeLimitRule record) throws Exception;
+
+	public List<ScoreRuleItem> getAllScoreRuleItems() throws Exception;
+
+	public void deleteScoreRuleItem(String id) throws Exception;
+
+	public void insertScoreRuleItem(ScoreRuleItem record) throws Exception;
+
+	public void updateScoreRuleItem(ScoreRuleItem record) throws Exception;
+
+	public ScoreRuleItem getScoreRuleItemById(String id) throws Exception;
 
 }

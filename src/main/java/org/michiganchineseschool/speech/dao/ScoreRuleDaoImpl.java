@@ -2,6 +2,8 @@ package org.michiganchineseschool.speech.dao;
 
 import java.util.List;
 
+import oracle.jdbc.proxy.annotation.GetDelegate;
+
 import org.michiganchineseschool.speech.dao.mapper.ScoreRuleRowMapper;
 import org.michiganchineseschool.speech.model.ScoreRule;
 
@@ -31,5 +33,15 @@ public class ScoreRuleDaoImpl extends BaseDaoImpl implements ScoreRuleDao {
 	@Override
 	public void delete(String id) throws Exception {
 		delete(id, TableName);
+	}
+
+	@Override
+	public ScoreRule select(String id) throws Exception {
+		if (null == id) {
+			return new ScoreRule();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE ID" + TableName
+				+ " = " + id;
+		return getJdbcTemplate().queryForObject(sql, new ScoreRuleRowMapper());
 	}
 }

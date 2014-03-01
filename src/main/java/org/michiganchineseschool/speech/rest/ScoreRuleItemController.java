@@ -3,7 +3,7 @@ package org.michiganchineseschool.speech.rest;
 import java.util.List;
 
 import org.michiganchineseschool.speech.model.BaseResponse;
-import org.michiganchineseschool.speech.model.ScoreRule;
+import org.michiganchineseschool.speech.model.ScoreRuleItem;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,46 +14,48 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping(value = "/score_rule")
-public class ScoreRuleController extends BaseController {
+@RequestMapping(value = "/score_rule_item")
+public class ScoreRuleItemController extends BaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	ScoreRule getById(@PathVariable(value = "id") String id) throws Exception {
-		return getDatabaseService().getScoreRuleById(id);
+	ScoreRuleItem getById(@PathVariable(value = "id") String id)
+			throws Exception {
+		return getDatabaseService().getScoreRuleItemById(id);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	List<ScoreRule> getAllScoreRules() throws Exception {
-		return getDatabaseService().getAllScoreRules();
+	List<ScoreRuleItem> getAllScoreRuleItems() throws Exception {
+		return getDatabaseService().getAllScoreRuleItems();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse deleteScoreRule(@PathVariable(value = "id") String id)
+	BaseResponse deleteScoreRuleItem(@PathVariable(value = "id") String id)
 			throws Exception {
-		getDatabaseService().deleteScoreRule(id);
+		getDatabaseService().deleteScoreRuleItem(id);
 		return new BaseResponse();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse insertScoreRule(@RequestBody ScoreRule record)
+	BaseResponse insertScoreRuleItem(@RequestBody ScoreRuleItem record)
 			throws Exception {
-		getDatabaseService().insertScoreRule(record);
+		getDatabaseService().insertScoreRuleItem(record);
 		return new BaseResponse();
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse updateStudent(@RequestBody ScoreRule record) throws Exception {
-		getDatabaseService().updateScoreRule(record);
+	BaseResponse updateScoreRuleItem(@RequestBody ScoreRuleItem record)
+			throws Exception {
+		getDatabaseService().updateScoreRuleItem(record);
 		return new BaseResponse();
 	}
 

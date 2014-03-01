@@ -39,5 +39,9 @@
 		class="org.michiganchineseschool.speech.dao.TimeLimitRuleDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="scoreRuleItemDao"
+		class="org.michiganchineseschool.speech.dao.ScoreRuleItemDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>

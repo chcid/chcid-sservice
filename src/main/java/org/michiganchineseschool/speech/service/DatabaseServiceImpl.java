@@ -7,6 +7,7 @@ import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
 import org.michiganchineseschool.speech.dao.ScoreRuleDao;
+import org.michiganchineseschool.speech.dao.ScoreRuleItemDao;
 import org.michiganchineseschool.speech.dao.StaffDao;
 import org.michiganchineseschool.speech.dao.StudentDao;
 import org.michiganchineseschool.speech.dao.TimeLimitRuleDao;
@@ -15,6 +16,7 @@ import org.michiganchineseschool.speech.model.Location;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
+import org.michiganchineseschool.speech.model.ScoreRuleItem;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 import org.michiganchineseschool.speech.model.TimeLimitRule;
@@ -28,6 +30,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private ScoreCountingTypeDao scoreCountingTypeDao;
 	private ScoreRuleDao scoreRuleDao;
 	private TimeLimitRuleDao timeLimitRuleDao;
+	private ScoreRuleItemDao scoreRuleItemDao;
+
+	public ScoreRuleItemDao getScoreRuleItemDao() {
+		return scoreRuleItemDao;
+	}
+
+	public void setScoreRuleItemDao(ScoreRuleItemDao scoreRuleItemDao) {
+		this.scoreRuleItemDao = scoreRuleItemDao;
+	}
 
 	public TimeLimitRuleDao getTimeLimitRuleDao() {
 		return timeLimitRuleDao;
@@ -222,6 +233,11 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
+	public ScoreRule getScoreRuleById(String id) throws Exception {
+		return getScoreRuleDao().select(id);
+	}
+
+	@Override
 	public void deleteScoreRule(String id) throws Exception {
 		getScoreRuleDao().delete(id);
 	}
@@ -256,4 +272,36 @@ public class DatabaseServiceImpl implements DatabaseService {
 		getTimeLimitRuleDao().update(record);
 	}
 
+	@Override
+	public List<ScoreRuleItem> getAllScoreRuleItems() throws Exception {
+		List<ScoreRuleItem> scoreRuleItems = getScoreRuleItemDao().selectAll();
+		for (ScoreRuleItem scoreRuleItem : scoreRuleItems) {
+			scoreRuleItem.setScoreRule(getScoreRuleDao().select(
+					scoreRuleItem.getScoreRule().getIdscore_rule()));
+		}
+		return scoreRuleItems;
+	}
+
+	@Override
+	public void deleteScoreRuleItem(String id) throws Exception {
+		getScoreRuleItemDao().delete(id);
+	}
+
+	@Override
+	public void insertScoreRuleItem(ScoreRuleItem record) throws Exception {
+		getScoreRuleItemDao().insert(record);
+	}
+
+	@Override
+	public void updateScoreRuleItem(ScoreRuleItem record) throws Exception {
+		getScoreRuleItemDao().update(record);
+	}
+
+	@Override
+	public ScoreRuleItem getScoreRuleItemById(String id) throws Exception {
+		ScoreRuleItem scoreRuleItem = getScoreRuleItemDao().select(id);
+		scoreRuleItem.setScoreRule(getScoreRuleDao().select(
+				scoreRuleItem.getScoreRule().getIdscore_rule()));
+		return scoreRuleItem;
+	}
 }
