@@ -1,5 +1,7 @@
 package org.michiganchineseschool.speech.dao;
 
+import java.lang.reflect.Method;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,5 +27,31 @@ public class BaseDaoImpl {
 		String sql = "DELETE FROM " + tableName + " WHERE ID" + tableName
 				+ " = " + id;
 		getJdbcTemplate().execute(sql);
+	}
+
+	static public String nullIdFilter(Object object, String methodName,
+			String className) {
+		if (null == object) {
+			return null;
+		}
+		// no paramater
+		try {
+			Class[] noparams = {};
+			// load the AppTest at runtime
+			Class cls = Class.forName("org.michiganchineseschool.speech.model."
+					+ className);
+			// Object obj = cls.newInstance();
+
+			// call the printIt method
+			Method method = cls.getDeclaredMethod("getId" + methodName,
+					noparams);
+			Object ret = method.invoke(object);
+			if (null != ret) {
+				return (String) ret;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

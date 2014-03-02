@@ -13,4 +13,6 @@ public interface TimeLimitRuleDao {
 
 	public void delete(String id) throws Exception;
 
+	public TimeLimitRule select(String id) throws Exception;
+
 }

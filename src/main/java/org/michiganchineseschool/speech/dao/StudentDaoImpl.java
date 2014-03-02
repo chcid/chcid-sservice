@@ -47,4 +47,15 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
 		String sql = "SELECT * FROM " + TableName;
 		return getJdbcTemplate().query(sql, new StudentRowMapper());
 	}
+
+	@Override
+	public Student select(String id) throws Exception {
+		if (null == id) {
+			return new Student();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE ID" + TableName
+				+ " = " + id;
+		return getJdbcTemplate().queryForObject(sql, new StudentRowMapper());
+
+	}
 }

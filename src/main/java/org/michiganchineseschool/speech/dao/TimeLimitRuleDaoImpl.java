@@ -12,20 +12,22 @@ public class TimeLimitRuleDaoImpl extends BaseDaoImpl implements
 	@Override
 	public void insert(TimeLimitRule record) throws Exception {
 		String sql = "INSERT INTO " + TableName
-				+ " ( MAX_LIMIT, MIN_LIMIT ) VALUES ( ?, ? )";
-		getJdbcTemplate().update(sql,
-				new Object[] { record.getMaxLimit(), record.getMinLimit() });
+				+ " ( MAX_LIMIT, MIN_LIMIT, NAME ) VALUES ( ?, ?, ? )";
+		getJdbcTemplate().update(
+				sql,
+				new Object[] { record.getMaxLimit(), record.getMinLimit(),
+						record.getName() });
 	}
 
 	@Override
 	public void update(TimeLimitRule record) throws Exception {
 		String sql = "UPDATE " + TableName
-				+ " SET MAX_LIMIT = ? , MIN_LIMIT = ? WHERE ID" + TableName
-				+ " = ?";
+				+ " SET MAX_LIMIT = ? , MIN_LIMIT = ?, NAME = ? WHERE ID"
+				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { record.getMaxLimit(), record.getMinLimit(),
-						record.getIdtime_limit_rule() });
+						record.getName(), record.getIdtime_limit_rule() });
 	}
 
 	@Override
@@ -37,5 +39,17 @@ public class TimeLimitRuleDaoImpl extends BaseDaoImpl implements
 	@Override
 	public void delete(String id) throws Exception {
 		delete(id, TableName);
+	}
+
+	@Override
+	public TimeLimitRule select(String id) throws Exception {
+		if (null == id) {
+			return new TimeLimitRule();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE ID" + TableName
+				+ " = " + id;
+		return getJdbcTemplate().queryForObject(sql,
+				new TimeLimitRuleRowMapper());
+
 	}
 }

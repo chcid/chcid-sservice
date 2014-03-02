@@ -3,6 +3,7 @@ package org.michiganchineseschool.speech.service;
 import java.util.List;
 
 import org.michiganchineseschool.speech.dao.ContestDao;
+import org.michiganchineseschool.speech.dao.ContestGroupDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
@@ -12,7 +13,8 @@ import org.michiganchineseschool.speech.dao.StaffDao;
 import org.michiganchineseschool.speech.dao.StudentDao;
 import org.michiganchineseschool.speech.dao.TimeLimitRuleDao;
 import org.michiganchineseschool.speech.model.Contest;
-import org.michiganchineseschool.speech.model.Location;
+import org.michiganchineseschool.speech.model.ContestGroup;
+import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -31,6 +33,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private ScoreRuleDao scoreRuleDao;
 	private TimeLimitRuleDao timeLimitRuleDao;
 	private ScoreRuleItemDao scoreRuleItemDao;
+	private ContestGroupDao contestGroupDao;
+
+	public ContestGroupDao getContestGroupDao() {
+		return contestGroupDao;
+	}
+
+	public void setContestGroupDao(ContestGroupDao contestGroupDao) {
+		this.contestGroupDao = contestGroupDao;
+	}
 
 	public ScoreRuleItemDao getScoreRuleItemDao() {
 		return scoreRuleItemDao;
@@ -105,6 +116,10 @@ public class DatabaseServiceImpl implements DatabaseService {
 		this.studentDao = studentDao;
 	}
 
+	public Student getStudentById(String id) throws Exception {
+		return getStudentDao().select(id);
+	}
+
 	@Override
 	public List<Student> getAllStudents() throws Exception {
 		return getStudentDao().selectAll();
@@ -125,6 +140,10 @@ public class DatabaseServiceImpl implements DatabaseService {
 		getStudentDao().update(student);
 	}
 
+	public Staff getStaffById(String id) throws Exception {
+		return getStaffDao().select(id);
+	}
+
 	@Override
 	public List<Staff> getAllStaffs() throws Exception {
 		return getStaffDao().selectAll();
@@ -143,6 +162,10 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateStaff(Staff staff) throws Exception {
 		getStaffDao().update(staff);
+	}
+
+	public Contest getContestById(String id) throws Exception {
+		return getContestDao().select(id);
 	}
 
 	@Override
@@ -166,7 +189,12 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<Location> getAllLocations() throws Exception {
+	public ContestLocation getLocationById(String id) throws Exception {
+		return getLocationDao().select(id);
+	}
+
+	@Override
+	public List<ContestLocation> getAllLocations() throws Exception {
 		return getLocationDao().selectAll();
 	}
 
@@ -176,13 +204,18 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public void insertLocation(Location record) throws Exception {
+	public void insertLocation(ContestLocation record) throws Exception {
 		getLocationDao().insert(record);
 	}
 
 	@Override
-	public void updateLocation(Location record) throws Exception {
+	public void updateLocation(ContestLocation record) throws Exception {
 		getLocationDao().update(record);
+	}
+
+	@Override
+	public Role getRoleById(String id) throws Exception {
+		return getRoleDao().select(id);
 	}
 
 	@Override
@@ -203,6 +236,12 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateRole(Role record) throws Exception {
 		getRoleDao().update(record);
+	}
+
+	@Override
+	public ScoreCountingType getScoreCountingTypeById(String id)
+			throws Exception {
+		return getScoreCountingTypeDao().select(id);
 	}
 
 	@Override
@@ -228,13 +267,13 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<ScoreRule> getAllScoreRules() throws Exception {
-		return getScoreRuleDao().selectAll();
+	public ScoreRule getScoreRuleById(String id) throws Exception {
+		return getScoreRuleDao().select(id);
 	}
 
 	@Override
-	public ScoreRule getScoreRuleById(String id) throws Exception {
-		return getScoreRuleDao().select(id);
+	public List<ScoreRule> getAllScoreRules() throws Exception {
+		return getScoreRuleDao().selectAll();
 	}
 
 	@Override
@@ -250,6 +289,11 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateScoreRule(ScoreRule record) throws Exception {
 		getScoreRuleDao().update(record);
+	}
+
+	@Override
+	public TimeLimitRule getTimeLimitRuleById(String id) throws Exception {
+		return getTimeLimitRuleDao().select(id);
 	}
 
 	@Override
@@ -272,12 +316,24 @@ public class DatabaseServiceImpl implements DatabaseService {
 		getTimeLimitRuleDao().update(record);
 	}
 
+	protected void setScoreRuleForScoreRuleItem(ScoreRuleItem scoreRuleItem)
+			throws Exception {
+		scoreRuleItem.setScoreRule(getScoreRuleDao().select(
+				scoreRuleItem.getScoreRule().getIdscore_rule()));
+	}
+
+	@Override
+	public ScoreRuleItem getScoreRuleItemById(String id) throws Exception {
+		ScoreRuleItem scoreRuleItem = getScoreRuleItemDao().select(id);
+		setScoreRuleForScoreRuleItem(scoreRuleItem);
+		return scoreRuleItem;
+	}
+
 	@Override
 	public List<ScoreRuleItem> getAllScoreRuleItems() throws Exception {
 		List<ScoreRuleItem> scoreRuleItems = getScoreRuleItemDao().selectAll();
 		for (ScoreRuleItem scoreRuleItem : scoreRuleItems) {
-			scoreRuleItem.setScoreRule(getScoreRuleDao().select(
-					scoreRuleItem.getScoreRule().getIdscore_rule()));
+			setScoreRuleForScoreRuleItem(scoreRuleItem);
 		}
 		return scoreRuleItems;
 	}
@@ -297,11 +353,75 @@ public class DatabaseServiceImpl implements DatabaseService {
 		getScoreRuleItemDao().update(record);
 	}
 
+	protected void setContestForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		contestGroup.setContest(getContestDao().select(
+				contestGroup.getContest().getIdcontest()));
+	}
+
+	protected void setLocationForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		contestGroup.setContestLocation(getLocationDao().select(
+				contestGroup.getContestLocation().getIdcontest_location()));
+	}
+
+	protected void setTimeLimitRuleForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		contestGroup.setTimeLimitRule(getTimeLimitRuleDao().select(
+				contestGroup.getTimeLimitRule().getIdtime_limit_rule()));
+	}
+
+	protected void setScoreRuleForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		contestGroup.setScoreRule(getScoreRuleDao().select(
+				contestGroup.getScoreRule().getIdscore_rule()));
+	}
+
+	protected void setScoreCountingTypeForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		contestGroup
+				.setScoreCountingType(getScoreCountingTypeDao().select(
+						contestGroup.getScoreCountingType()
+								.getIdscore_counting_type()));
+	}
+
+	protected void setFidForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		setContestForContestGroup(contestGroup);
+		setLocationForContestGroup(contestGroup);
+		setTimeLimitRuleForContestGroup(contestGroup);
+		setScoreRuleForContestGroup(contestGroup);
+		setScoreCountingTypeForContestGroup(contestGroup);
+	}
+
 	@Override
-	public ScoreRuleItem getScoreRuleItemById(String id) throws Exception {
-		ScoreRuleItem scoreRuleItem = getScoreRuleItemDao().select(id);
-		scoreRuleItem.setScoreRule(getScoreRuleDao().select(
-				scoreRuleItem.getScoreRule().getIdscore_rule()));
-		return scoreRuleItem;
+	public ContestGroup getContestGroupById(String id) throws Exception {
+		ContestGroup contestGroup = getContestGroupDao().select(id);
+		setFidForContestGroup(contestGroup);
+		return contestGroup;
+	}
+
+	@Override
+	public List<ContestGroup> getAllContestGroups() throws Exception {
+		List<ContestGroup> contestGroups = getContestGroupDao().selectAll();
+		for (ContestGroup contestGroup : contestGroups) {
+			setFidForContestGroup(contestGroup);
+		}
+		return contestGroups;
+	}
+
+	@Override
+	public void deleteContestGroup(String id) throws Exception {
+		getContestGroupDao().delete(id);
+	}
+
+	@Override
+	public void insertContestGroup(ContestGroup record) throws Exception {
+		getContestGroupDao().insert(record);
+	}
+
+	@Override
+	public void updateContestGroup(ContestGroup record) throws Exception {
+		getContestGroupDao().update(record);
 	}
 }

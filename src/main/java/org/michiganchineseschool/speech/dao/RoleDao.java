@@ -13,4 +13,6 @@ public interface RoleDao {
 
 	public void delete(String id) throws Exception;
 
+	public Role select(String id) throws Exception;
+
 }

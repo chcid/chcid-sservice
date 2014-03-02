@@ -3,7 +3,8 @@ package org.michiganchineseschool.speech.service;
 import java.util.List;
 
 import org.michiganchineseschool.speech.model.Contest;
-import org.michiganchineseschool.speech.model.Location;
+import org.michiganchineseschool.speech.model.ContestGroup;
+import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -13,6 +14,8 @@ import org.michiganchineseschool.speech.model.Student;
 import org.michiganchineseschool.speech.model.TimeLimitRule;
 
 public interface DatabaseService {
+	public Student getStudentById(String id) throws Exception;
+
 	public List<Student> getAllStudents() throws Exception;
 
 	public void deleteStudent(String idstudent) throws Exception;
@@ -20,6 +23,8 @@ public interface DatabaseService {
 	public void insertStudent(Student student) throws Exception;
 
 	public void updateStudent(Student student) throws Exception;
+
+	public Staff getStaffById(String id) throws Exception;
 
 	public List<Staff> getAllStaffs() throws Exception;
 
@@ -29,6 +34,8 @@ public interface DatabaseService {
 
 	public void updateStaff(Staff staff) throws Exception;
 
+	public Contest getContestById(String id) throws Exception;
+
 	public List<Contest> getAllContests() throws Exception;
 
 	public void deleteContest(String id) throws Exception;
@@ -37,13 +44,17 @@ public interface DatabaseService {
 
 	public void updateContest(Contest contest) throws Exception;
 
-	public List<Location> getAllLocations() throws Exception;
+	public ContestLocation getLocationById(String id) throws Exception;
+
+	public List<ContestLocation> getAllLocations() throws Exception;
 
 	public void deleteLocation(String id) throws Exception;
 
-	public void insertLocation(Location record) throws Exception;
+	public void insertLocation(ContestLocation record) throws Exception;
 
-	public void updateLocation(Location record) throws Exception;
+	public void updateLocation(ContestLocation record) throws Exception;
+
+	public Role getRoleById(String id) throws Exception;
 
 	public List<Role> getAllRoles() throws Exception;
 
@@ -52,6 +63,9 @@ public interface DatabaseService {
 	public void insertRole(Role record) throws Exception;
 
 	public void updateRole(Role record) throws Exception;
+
+	public ScoreCountingType getScoreCountingTypeById(String id)
+			throws Exception;
 
 	public List<ScoreCountingType> getAllScoreCountingTypes() throws Exception;
 
@@ -63,15 +77,17 @@ public interface DatabaseService {
 	public void updateScoreCountingType(ScoreCountingType record)
 			throws Exception;
 
-	public List<ScoreRule> getAllScoreRules() throws Exception;
-
 	public ScoreRule getScoreRuleById(String id) throws Exception;
+
+	public List<ScoreRule> getAllScoreRules() throws Exception;
 
 	public void deleteScoreRule(String id) throws Exception;
 
 	public void insertScoreRule(ScoreRule record) throws Exception;
 
 	public void updateScoreRule(ScoreRule record) throws Exception;
+
+	public TimeLimitRule getTimeLimitRuleById(String id) throws Exception;
 
 	public List<TimeLimitRule> getAllTimeLimitRules() throws Exception;
 
@@ -81,6 +97,8 @@ public interface DatabaseService {
 
 	public void updateTimeLimitRule(TimeLimitRule record) throws Exception;
 
+	public ScoreRuleItem getScoreRuleItemById(String id) throws Exception;
+
 	public List<ScoreRuleItem> getAllScoreRuleItems() throws Exception;
 
 	public void deleteScoreRuleItem(String id) throws Exception;
@@ -89,6 +107,14 @@ public interface DatabaseService {
 
 	public void updateScoreRuleItem(ScoreRuleItem record) throws Exception;
 
-	public ScoreRuleItem getScoreRuleItemById(String id) throws Exception;
+	public ContestGroup getContestGroupById(String id) throws Exception;
+
+	public List<ContestGroup> getAllContestGroups() throws Exception;
+
+	public void deleteContestGroup(String id) throws Exception;
+
+	public void insertContestGroup(ContestGroup record) throws Exception;
+
+	public void updateContestGroup(ContestGroup record) throws Exception;
 
 }

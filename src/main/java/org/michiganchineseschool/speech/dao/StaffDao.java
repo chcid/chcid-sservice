@@ -13,4 +13,6 @@ public interface StaffDao {
 
 	public void update(Staff record) throws Exception;
 
+	public Staff select(String id) throws Exception;
+
 }

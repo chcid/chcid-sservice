@@ -46,4 +46,15 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
 		String sql = "SELECT * FROM " + TableName;
 		return getJdbcTemplate().query(sql, new StaffRowMapper());
 	}
+
+	@Override
+	public Staff select(String id) throws Exception {
+		if (null == id) {
+			return new Staff();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE ID" + TableName
+				+ " = " + id;
+		return getJdbcTemplate().queryForObject(sql, new StaffRowMapper());
+
+	}
 }

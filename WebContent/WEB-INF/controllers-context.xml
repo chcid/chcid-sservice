@@ -52,4 +52,8 @@
 		class="org.michiganchineseschool.speech.rest.ScoreRuleItemController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+	<bean id="contestGroupController"
+		class="org.michiganchineseschool.speech.rest.ContestGroupController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 </beans>

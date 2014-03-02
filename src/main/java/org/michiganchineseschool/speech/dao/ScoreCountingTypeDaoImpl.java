@@ -35,4 +35,16 @@ public class ScoreCountingTypeDaoImpl extends BaseDaoImpl implements
 	public void delete(String id) throws Exception {
 		delete(id, TableName);
 	}
+
+	@Override
+	public ScoreCountingType select(String id) throws Exception {
+		if (null == id) {
+			return new ScoreCountingType();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE ID" + TableName
+				+ " = " + id;
+		return getJdbcTemplate().queryForObject(sql,
+				new ScoreCountingTypeRowMapper());
+
+	}
 }

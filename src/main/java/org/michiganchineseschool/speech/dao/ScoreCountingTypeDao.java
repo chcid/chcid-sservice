@@ -13,4 +13,6 @@ public interface ScoreCountingTypeDao {
 
 	public void delete(String id) throws Exception;
 
+	public ScoreCountingType select(String id) throws Exception;
+
 }

@@ -15,6 +15,7 @@ public class TimeLimitRuleResultSetExtractor implements
 		record.setIdtime_limit_rule(rs.getString("IDTIME_LIMIT_RULE"));
 		record.setMaxLimit(rs.getInt("MAX_LIMIT"));
 		record.setMinLimit(rs.getInt("MIN_LIMIT"));
+		record.setName(rs.getString("NAME"));
 		return record;
 	}
 }

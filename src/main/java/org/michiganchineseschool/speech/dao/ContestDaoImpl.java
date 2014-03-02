@@ -32,4 +32,15 @@ public class ContestDaoImpl extends BaseDaoImpl implements ContestDao {
 	public void delete(String id) throws Exception {
 		delete(id, TableName);
 	}
+
+	@Override
+	public Contest select(String id) throws Exception {
+		if (null == id) {
+			return new Contest();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE ID" + TableName
+				+ " = " + id;
+		return getJdbcTemplate().queryForObject(sql, new ContestRowMapper());
+
+	}
 }

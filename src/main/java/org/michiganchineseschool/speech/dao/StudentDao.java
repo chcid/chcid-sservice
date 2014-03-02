@@ -13,4 +13,6 @@ public interface StudentDao {
 
 	public void update(Student record) throws Exception;
 
+	public Student select(String id) throws Exception;
+
 }

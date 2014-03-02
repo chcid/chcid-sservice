@@ -7,6 +7,15 @@ public class TimeLimitRule implements Serializable {
 	private String idtime_limit_rule;
 	private int maxLimit;
 	private int minLimit;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getIdtime_limit_rule() {
 		return idtime_limit_rule;

@@ -3,7 +3,7 @@ package org.michiganchineseschool.speech.rest;
 import java.util.List;
 
 import org.michiganchineseschool.speech.model.BaseResponse;
-import org.michiganchineseschool.speech.model.ContestLocation;
+import org.michiganchineseschool.speech.model.ContestGroup;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,38 +14,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping(value = "/contest_location")
-public class LocationController extends BaseController {
+@RequestMapping(value = "/contest_group")
+public class ContestGroupController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	List<ContestLocation> getAllLocations() throws Exception {
-		return getDatabaseService().getAllLocations();
+	List<ContestGroup> getAllContestGroups() throws Exception {
+		return getDatabaseService().getAllContestGroups();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse deleteLocation(@PathVariable(value = "id") String id)
+	BaseResponse deleteContestGroup(@PathVariable(value = "id") String id)
 			throws Exception {
-		getDatabaseService().deleteLocation(id);
+		getDatabaseService().deleteContestGroup(id);
 		return new BaseResponse();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse insertLocation(@RequestBody ContestLocation record) throws Exception {
-		getDatabaseService().insertLocation(record);
+	BaseResponse insertContestGroup(@RequestBody ContestGroup record)
+			throws Exception {
+		getDatabaseService().insertContestGroup(record);
 		return new BaseResponse();
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	BaseResponse updateStudent(@RequestBody ContestLocation record) throws Exception {
-		getDatabaseService().updateLocation(record);
+	BaseResponse updateStudent(@RequestBody ContestGroup record)
+			throws Exception {
+		getDatabaseService().updateContestGroup(record);
 		return new BaseResponse();
 	}
 
