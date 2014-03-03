@@ -5,6 +5,7 @@ import java.util.List;
 import org.michiganchineseschool.speech.dao.ContestDao;
 import org.michiganchineseschool.speech.dao.ContestGroupDao;
 import org.michiganchineseschool.speech.dao.ContestorDao;
+import org.michiganchineseschool.speech.dao.ContestorIndividualDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
@@ -17,6 +18,7 @@ import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Contestor;
+import org.michiganchineseschool.speech.model.ContestorIndividual;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -37,6 +39,16 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private ScoreRuleItemDao scoreRuleItemDao;
 	private ContestGroupDao contestGroupDao;
 	private ContestorDao contestorDao;
+	private ContestorIndividualDao contestorIndividualDao;
+
+	public ContestorIndividualDao getContestorIndividualDao() {
+		return contestorIndividualDao;
+	}
+
+	public void setContestorIndividualDao(
+			ContestorIndividualDao contestorIndividualDao) {
+		this.contestorIndividualDao = contestorIndividualDao;
+	}
 
 	public ContestorDao getContestorDao() {
 		return contestorDao;
@@ -473,5 +485,56 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateContestor(Contestor record) throws Exception {
 		getContestorDao().update(record);
+	}
+
+	protected void setContestorForContestorIndividual(
+			ContestorIndividual contestorIndividual) throws Exception {
+		contestorIndividual.setContestor(getContestorById(contestorIndividual
+				.getContestor().getIdcontestor()));
+	}
+
+	protected void setStudentForContestorIndividual(
+			ContestorIndividual contestorIndividual) throws Exception {
+		contestorIndividual.setStudent(getStudentById(contestorIndividual
+				.getStudent().getIdstudent()));
+	}
+
+	@Override
+	public ContestorIndividual getContestorIndividualById(String id)
+			throws Exception {
+		ContestorIndividual contestorIndividual = getContestorIndividualDao()
+				.select(id);
+		setContestorForContestorIndividual(contestorIndividual);
+		setStudentForContestorIndividual(contestorIndividual);
+		return contestorIndividual;
+	}
+
+	@Override
+	public List<ContestorIndividual> getAllContestorIndividuals()
+			throws Exception {
+		List<ContestorIndividual> contestorIndividuals = getContestorIndividualDao()
+				.selectAll();
+		for (ContestorIndividual contestorIndividual : contestorIndividuals) {
+			setContestorForContestorIndividual(contestorIndividual);
+			setStudentForContestorIndividual(contestorIndividual);
+		}
+		return contestorIndividuals;
+	}
+
+	@Override
+	public void deleteContestorIndividual(String id) throws Exception {
+		getContestorIndividualDao().delete(id);
+	}
+
+	@Override
+	public void insertContestorIndividual(ContestorIndividual record)
+			throws Exception {
+		getContestorIndividualDao().insert(record);
+	}
+
+	@Override
+	public void updateContestorIndividual(ContestorIndividual record)
+			throws Exception {
+		getContestorIndividualDao().update(record);
 	}
 }

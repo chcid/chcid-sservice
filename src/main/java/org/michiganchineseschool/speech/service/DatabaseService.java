@@ -6,6 +6,7 @@ import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Contestor;
+import org.michiganchineseschool.speech.model.ContestorIndividual;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -127,5 +128,15 @@ public interface DatabaseService {
 	public void insertContestor(Contestor record) throws Exception;
 
 	public void updateContestor(Contestor record) throws Exception;
+	
+	public ContestorIndividual getContestorIndividualById(String id) throws Exception;
+
+	public List<ContestorIndividual> getAllContestorIndividuals() throws Exception;
+
+	public void deleteContestorIndividual(String id) throws Exception;
+
+	public void insertContestorIndividual(ContestorIndividual record) throws Exception;
+
+	public void updateContestorIndividual(ContestorIndividual record) throws Exception;
 
 }

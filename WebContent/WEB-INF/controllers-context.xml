@@ -61,4 +61,9 @@
 		class="org.michiganchineseschool.speech.rest.ContestorController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+
+	<bean id="contestorIndividualController"
+		class="org.michiganchineseschool.speech.rest.ContestorIndividualController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 </beans>

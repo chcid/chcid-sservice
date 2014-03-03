@@ -50,5 +50,9 @@
 	<bean id="contestorDao" class="org.michiganchineseschool.speech.dao.ContestorDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="contestorIndividualDao"
+		class="org.michiganchineseschool.speech.dao.ContestorIndividualDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>
