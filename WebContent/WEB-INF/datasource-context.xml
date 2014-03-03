@@ -42,5 +42,6 @@
 		<property name="timeLimitRuleDao" ref="timeLimitRuleDao" />
 		<property name="scoreRuleItemDao" ref="scoreRuleItemDao" />
 		<property name="contestGroupDao" ref="contestGroupDao" />
+		<property name="contestorDao" ref="contestorDao" />
 	</bean>
 </beans>

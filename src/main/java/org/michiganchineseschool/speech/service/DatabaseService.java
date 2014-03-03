@@ -5,6 +5,7 @@ import java.util.List;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
+import org.michiganchineseschool.speech.model.Contestor;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -116,5 +117,15 @@ public interface DatabaseService {
 	public void insertContestGroup(ContestGroup record) throws Exception;
 
 	public void updateContestGroup(ContestGroup record) throws Exception;
+
+	public Contestor getContestorById(String id) throws Exception;
+
+	public List<Contestor> getAllContestors() throws Exception;
+
+	public void deleteContestor(String id) throws Exception;
+
+	public void insertContestor(Contestor record) throws Exception;
+
+	public void updateContestor(Contestor record) throws Exception;
 
 }

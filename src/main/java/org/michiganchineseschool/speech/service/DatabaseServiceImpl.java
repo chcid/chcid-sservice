@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.michiganchineseschool.speech.dao.ContestDao;
 import org.michiganchineseschool.speech.dao.ContestGroupDao;
+import org.michiganchineseschool.speech.dao.ContestorDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
@@ -15,6 +16,7 @@ import org.michiganchineseschool.speech.dao.TimeLimitRuleDao;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
+import org.michiganchineseschool.speech.model.Contestor;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -34,6 +36,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private TimeLimitRuleDao timeLimitRuleDao;
 	private ScoreRuleItemDao scoreRuleItemDao;
 	private ContestGroupDao contestGroupDao;
+	private ContestorDao contestorDao;
+
+	public ContestorDao getContestorDao() {
+		return contestorDao;
+	}
+
+	public void setContestorDao(ContestorDao contestorDao) {
+		this.contestorDao = contestorDao;
+	}
 
 	public ContestGroupDao getContestGroupDao() {
 		return contestGroupDao;
@@ -423,5 +434,44 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateContestGroup(ContestGroup record) throws Exception {
 		getContestGroupDao().update(record);
+	}
+
+	protected void setContestGrooupForContestor(Contestor contestor)
+			throws Exception {
+		// contestor.setContestGroup(getContestGroupDao().select(
+		// contestor.getContestGroup().getIdcontest_group()));
+		contestor.setContestGroup(getContestGroupById(contestor
+				.getContestGroup().getIdcontest_group()));
+	}
+
+	@Override
+	public Contestor getContestorById(String id) throws Exception {
+		Contestor contestor = getContestorDao().select(id);
+		setContestGrooupForContestor(contestor);
+		return contestor;
+	}
+
+	@Override
+	public List<Contestor> getAllContestors() throws Exception {
+		List<Contestor> contestors = getContestorDao().selectAll();
+		for (Contestor contestor : contestors) {
+			setContestGrooupForContestor(contestor);
+		}
+		return contestors;
+	}
+
+	@Override
+	public void deleteContestor(String id) throws Exception {
+		getContestorDao().delete(id);
+	}
+
+	@Override
+	public void insertContestor(Contestor record) throws Exception {
+		getContestorDao().insert(record);
+	}
+
+	@Override
+	public void updateContestor(Contestor record) throws Exception {
+		getContestorDao().update(record);
 	}
 }
