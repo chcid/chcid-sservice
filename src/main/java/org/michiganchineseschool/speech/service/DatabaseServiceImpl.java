@@ -6,6 +6,7 @@ import org.michiganchineseschool.speech.dao.ContestDao;
 import org.michiganchineseschool.speech.dao.ContestGroupDao;
 import org.michiganchineseschool.speech.dao.ContestorDao;
 import org.michiganchineseschool.speech.dao.ContestorIndividualDao;
+import org.michiganchineseschool.speech.dao.JudgeDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
@@ -19,6 +20,7 @@ import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Contestor;
 import org.michiganchineseschool.speech.model.ContestorIndividual;
+import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -40,6 +42,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private ContestGroupDao contestGroupDao;
 	private ContestorDao contestorDao;
 	private ContestorIndividualDao contestorIndividualDao;
+	private JudgeDao judgeDao;
+
+	public JudgeDao getJudgeDao() {
+		return judgeDao;
+	}
+
+	public void setJudgeDao(JudgeDao judgeDao) {
+		this.judgeDao = judgeDao;
+	}
 
 	public ContestorIndividualDao getContestorIndividualDao() {
 		return contestorIndividualDao;
@@ -536,5 +547,55 @@ public class DatabaseServiceImpl implements DatabaseService {
 	public void updateContestorIndividual(ContestorIndividual record)
 			throws Exception {
 		getContestorIndividualDao().update(record);
+	}
+
+	@Override
+	public Judge getJudgeById(String id) throws Exception {
+		Judge judge = getJudgeDao().select(id);
+		setIdfForJudge(judge);
+		return judge;
+	}
+
+	private void setIdfForJudge(Judge judge) throws Exception {
+		setContestGrooupForJudge(judge);
+		setStaffForJudge(judge);
+		setRoleForJudge(judge);
+	}
+
+	private void setRoleForJudge(Judge judge) throws Exception {
+		judge.setRole(getRoleById(judge.getRole().getIdrole()));
+	}
+
+	private void setStaffForJudge(Judge judge) throws Exception {
+		judge.setStaff(getStaffById(judge.getStaff().getIdstaff()));
+	}
+
+	private void setContestGrooupForJudge(Judge judge) throws Exception {
+		judge.setContestGroup(getContestGroupById(judge.getContestGroup()
+				.getIdcontest_group()));
+	}
+
+	@Override
+	public List<Judge> getAllJudges() throws Exception {
+		List<Judge> judges = getJudgeDao().selectAll();
+		for (Judge judge : judges) {
+			setIdfForJudge(judge);
+		}
+		return judges;
+	}
+
+	@Override
+	public void deleteJudge(String id) throws Exception {
+		getJudgeDao().delete(id);
+	}
+
+	@Override
+	public void insertJudge(Judge record) throws Exception {
+		getJudgeDao().insert(record);
+	}
+
+	@Override
+	public void updateJudge(Judge record) throws Exception {
+		getJudgeDao().update(record);
 	}
 }

@@ -44,5 +44,6 @@
 		<property name="contestGroupDao" ref="contestGroupDao" />
 		<property name="contestorDao" ref="contestorDao" />
 		<property name="contestorIndividualDao" ref="contestorIndividualDao" />
+		<property name="judgeDao" ref="judgeDao" />
 	</bean>
 </beans>
