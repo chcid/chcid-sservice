@@ -2,7 +2,9 @@ package org.michiganchineseschool.speech.dao;
 
 import java.util.List;
 
+import org.michiganchineseschool.speech.dao.mapper.JudgeRowMapper;
 import org.michiganchineseschool.speech.dao.mapper.StaffRowMapper;
+import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Staff;
 
 public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
@@ -56,5 +58,17 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
 				+ " = " + id;
 		return getJdbcTemplate().queryForObject(sql, new StaffRowMapper());
 
+	}
+
+	@Override
+	public List<Staff> selectListForLogin() throws Exception {
+		String sql = "SELECT * from "
+				+ TableName
+				+ " WHERE IDSTAFF in ("
+				+ " SELECT distinct idstaff FROM CONTEST c, contest_group cg, judge j"
+				+ " where c.idcontest = cg.idcontest"
+				+ " and cg.idcontest_group = j.idcontest_group"
+				+ " and c.active = 1)";
+		return getJdbcTemplate().query(sql, new StaffRowMapper());
 	}
 }

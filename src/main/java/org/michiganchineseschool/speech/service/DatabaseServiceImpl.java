@@ -438,9 +438,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public List<ContestGroup> getAllContestGroups() throws Exception {
 		List<ContestGroup> contestGroups = getContestGroupDao().selectAll();
-		for (ContestGroup contestGroup : contestGroups) {
-			setFidForContestGroup(contestGroup);
-		}
+		setFidForContestGroups(contestGroups);
 		return contestGroups;
 	}
 
@@ -597,5 +595,26 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void updateJudge(Judge record) throws Exception {
 		getJudgeDao().update(record);
+	}
+
+	@Override
+	public List<Staff> selectListForLogin() throws Exception {
+		return getStaffDao().selectListForLogin();
+	}
+
+	protected void setFidForContestGroups(List<ContestGroup> contestGroups)
+			throws Exception {
+		for (ContestGroup contestGroup : contestGroups) {
+			setFidForContestGroup(contestGroup);
+		}
+	}
+
+	@Override
+	public List<ContestGroup> selectContestGroupListForLoginedStaff(
+			String idstaff) throws Exception {
+		List<ContestGroup> contestGroups = getContestGroupDao()
+				.selectListForLoginedStaff(idstaff);
+		setFidForContestGroups(contestGroups);
+		return contestGroups;
 	}
 }

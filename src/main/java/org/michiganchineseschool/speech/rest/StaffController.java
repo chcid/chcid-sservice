@@ -17,10 +17,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(value = "/staff")
 public class StaffController extends BaseController {
 
+	@RequestMapping(value = "/loginList", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	List<Staff> getAllStaffsForLogin() throws Exception {
+		return getDatabaseService().selectListForLogin();
+	}
+
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	List<Staff> getAllStaffss() throws Exception {
+	List<Staff> getAllStaffs() throws Exception {
 		return getDatabaseService().getAllStaffs();
 	}
 

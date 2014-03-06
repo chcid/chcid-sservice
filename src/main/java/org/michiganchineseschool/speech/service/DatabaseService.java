@@ -154,4 +154,9 @@ public interface DatabaseService {
 
 	public void updateJudge(Judge record) throws Exception;
 
+	public List<Staff> selectListForLogin() throws Exception;
+
+	public List<ContestGroup> selectContestGroupListForLoginedStaff(
+			String idstaff) throws Exception;
+
 }

@@ -15,4 +15,6 @@ public interface StaffDao {
 
 	public Staff select(String id) throws Exception;
 
+	public List<Staff> selectListForLogin() throws Exception;
+
 }

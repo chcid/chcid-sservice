@@ -15,4 +15,7 @@ public interface ContestGroupDao {
 
 	public ContestGroup select(String id) throws Exception;
 
+	public List<ContestGroup> selectListForLoginedStaff(String idstaff)
+			throws Exception;
+
 }
