@@ -80,15 +80,15 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 	@Override
 	public List<ContestGroup> selectListForLoginedStaff(String idstaff)
 			throws Exception {
-		String sql = "SELECT * FROM speech.CONTEST_GROUP"
-				+ " WHERE idcontest_group in ("
-				+ " SELECT distinct cg.idcontest_group FROM speech.contest c, speech.contest_group cg, speech.judge j, speech.contestor ctor, speech.staff s, speech.role r"
-				+ " where" + " c.idcontest = cg.idcontest"
+		String sql = "SELECT cg.*, r.idrole FROM speech.contest c, speech.contest_group cg, speech.judge j, speech.staff s, speech.role r"
+				+ " where"
+				+ " c.idcontest = cg.idcontest"
 				+ " and cg.idcontest_group = j.idcontest_group"
-				+ " and ctor.idcontest_group = cg.idcontest_group"
-				+ " and j.idstaff = s.idstaff" + " and j.idrole = r.idrole"
-				+ " and c.active = 1" + " and c.idcontest = 1"
-				+ " and s.idstaff = " + idstaff + " )";
+				+ " and j.idstaff = s.idstaff"
+				+ " and j.idrole = r.idrole"
+				+ " and c.active = 1"
+				+ " and c.idcontest = 1"
+				+ " and s.idstaff = " + idstaff;
 		return getJdbcTemplate().query(sql, new ContestGroupRowMapper());
 	}
 }

@@ -419,6 +419,16 @@ public class DatabaseServiceImpl implements DatabaseService {
 								.getIdscore_counting_type()));
 	}
 
+	protected void setRoleForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		if (null == contestGroup.getRole()
+				|| null == contestGroup.getRole().getIdrole()) {
+			return;
+		}
+		contestGroup.setRole(getRoleDao().select(
+				contestGroup.getRole().getIdrole()));
+	}
+
 	protected void setFidForContestGroup(ContestGroup contestGroup)
 			throws Exception {
 		setContestForContestGroup(contestGroup);
@@ -426,6 +436,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 		setTimeLimitRuleForContestGroup(contestGroup);
 		setScoreRuleForContestGroup(contestGroup);
 		setScoreCountingTypeForContestGroup(contestGroup);
+		setRoleForContestGroup(contestGroup);
 	}
 
 	@Override
@@ -616,5 +627,44 @@ public class DatabaseServiceImpl implements DatabaseService {
 				.selectListForLoginedStaff(idstaff);
 		setFidForContestGroups(contestGroups);
 		return contestGroups;
+	}
+
+	public List<Contestor> selectContestorByContestGroup(String idcontestGroup,
+			String idstaff, String idrole) throws Exception {
+		List<Contestor> contestors = getContestorDao().selectByContestGroup(
+				idcontestGroup);
+		setStudentsForContestors(contestors);
+		setScoreRuleItemsForContestor(contestors, idstaff, idrole);
+		return contestors;
+	}
+
+	private void setScoreRuleItemsForContestor(List<Contestor> contestors,
+			String idstaff, String idrole) throws Exception {
+		for (Contestor contestor : contestors) {
+			contestor.setScoreRuleItems(getScoreRuleItemDao()
+					.selectByContestGroup(
+							contestor.getContestGroup().getIdcontest_group()));
+			setScoreForScoreRuleItems(contestor.getScoreRuleItems(),
+					contestor.getIdcontestor(), idstaff, idrole);
+		}
+	}
+
+	private void setScoreForScoreRuleItems(List<ScoreRuleItem> scoreRuleItems,
+			String idcontestor, String idstaff, String idrole) throws Exception {
+		for (ScoreRuleItem scoreRuleItem : scoreRuleItems) {
+			scoreRuleItem.setScore(getScoreRuleItemDao()
+					.getScoreByContestorRoleStaffScoreRuleItem(idcontestor,
+							idrole, idstaff,
+							scoreRuleItem.getIdscore_rule_item()));
+		}
+
+	}
+
+	private void setStudentsForContestors(List<Contestor> contestors)
+			throws Exception {
+		for (Contestor contestor : contestors) {
+			contestor.setStudents(getStudentDao().selectByContestor(
+					contestor.getIdcontestor()));
+		}
 	}
 }

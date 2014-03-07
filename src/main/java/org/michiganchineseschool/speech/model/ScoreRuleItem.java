@@ -8,6 +8,15 @@ public class ScoreRuleItem implements Serializable {
 	private String name;
 	private int weight;
 	private ScoreRule scoreRule;
+	private int score;
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
 
 	public String getIdscore_rule_item() {
 		return idscore_rule_item;

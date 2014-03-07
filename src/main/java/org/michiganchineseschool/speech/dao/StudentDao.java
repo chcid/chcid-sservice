@@ -15,4 +15,6 @@ public interface StudentDao {
 
 	public Student select(String id) throws Exception;
 
+	public List<Student> selectByContestor(String idcontestor) throws Exception;
+
 }

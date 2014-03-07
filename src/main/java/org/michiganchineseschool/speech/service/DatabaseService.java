@@ -159,4 +159,7 @@ public interface DatabaseService {
 	public List<ContestGroup> selectContestGroupListForLoginedStaff(
 			String idstaff) throws Exception;
 
+	public List<Contestor> selectContestorByContestGroup(String idcontestGroup,
+			String idstaff, String idrole) throws Exception;
+
 }

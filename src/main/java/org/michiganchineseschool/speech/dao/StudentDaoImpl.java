@@ -58,4 +58,12 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
 		return getJdbcTemplate().queryForObject(sql, new StudentRowMapper());
 
 	}
+
+	@Override
+	public List<Student> selectByContestor(String idcontestor) throws Exception {
+		String sql = "select s.* from speech.contestor_individual ci, speech.student s"
+				+ " where ci.idstudent = s.idstudent"
+				+ " and ci.idcontestor = " + idcontestor;
+		return getJdbcTemplate().query(sql, new StudentRowMapper());
+	}
 }

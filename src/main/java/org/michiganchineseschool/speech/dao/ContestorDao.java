@@ -15,4 +15,7 @@ public interface ContestorDao {
 
 	public Contestor select(String id) throws Exception;
 
+	public List<Contestor> selectByContestGroup(String idcontestGroup)
+			throws Exception;
+
 }

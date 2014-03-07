@@ -55,4 +55,12 @@ public class ContestorDaoImpl extends BaseDaoImpl implements ContestorDao {
 				+ " = " + id;
 		return getJdbcTemplate().queryForObject(sql, new ContestorRowMapper());
 	}
+
+	@Override
+	public List<Contestor> selectByContestGroup(String idcontestGroup)
+			throws Exception {
+		String sql = "SELECT * FROM " + TableName + " where idcontest_group = "
+				+ idcontestGroup;
+		return getJdbcTemplate().query(sql, new ContestorRowMapper());
+	}
 }

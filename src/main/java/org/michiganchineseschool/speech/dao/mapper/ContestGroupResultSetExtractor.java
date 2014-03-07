@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
+import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
 import org.michiganchineseschool.speech.model.TimeLimitRule;
@@ -35,6 +36,13 @@ public class ContestGroupResultSetExtractor implements
 		scoreCountingType.setIdscore_counting_type(rs
 				.getString("IDSCORE_COUNTING_TYPE"));
 		record.setScoreCountingType(scoreCountingType);
+		try {
+			Role role = new Role();
+			role.setIdrole(rs.getString("IDROLE"));
+			record.setRole(role);
+		} catch (Exception e) {
+			// ok to throw exception here
+		}
 		return record;
 	}
 }
