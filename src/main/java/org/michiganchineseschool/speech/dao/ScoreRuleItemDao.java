@@ -17,9 +17,4 @@ public interface ScoreRuleItemDao {
 
 	public List<ScoreRuleItem> selectByContestGroup(String idcontestGroup)
 			throws Exception;
-
-	public int getScoreByContestorRoleStaffScoreRuleItem(String idcontestor,
-			String idrole, String idstaff, String idscoreRuleItem)
-			throws Exception;
-
 }

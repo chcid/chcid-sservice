@@ -67,30 +67,4 @@ public class ScoreRuleItemDaoImpl extends BaseDaoImpl implements
 				+ " and cg.idcontest_group = " + idcontestGroup;
 		return getJdbcTemplate().query(sql, new ScoreRuleItemRowMapper());
 	}
-
-	@Override
-	public int getScoreByContestorRoleStaffScoreRuleItem(String idcontestor,
-			String idrole, String idstaff, String idscoreRuleItem)
-			throws Exception {
-		String sql = "select ss.score from speech_score ss, contestor_score cs, judge j, role r, staff s,score_rule_item sri"
-				+ " where ss.idcontestor_score = cs.idcontestor_score"
-				+ " and ss.idscore_rule_item = sri.idscore_rule_item"
-				+ " and cs.idjudge = j.idjudge"
-				+ " and j.idstaff = s.idstaff"
-				+ " and j.idrole = r.idrole"
-				+ " and j.idrole = "
-				+ idrole
-				+ " and j.idstaff = "
-				+ idstaff
-				+ " and cs.idcontestor = "
-				+ idcontestor
-				+ " and sri.idscore_rule_item = "
-				+ idscoreRuleItem;
-		try {
-			return getJdbcTemplate().queryForInt(sql);
-		} catch (EmptyResultDataAccessException e) {
-			// empty result is ok here
-			return 0;
-		}
-	}
 }

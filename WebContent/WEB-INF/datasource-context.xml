@@ -45,5 +45,7 @@
 		<property name="contestorDao" ref="contestorDao" />
 		<property name="contestorIndividualDao" ref="contestorIndividualDao" />
 		<property name="judgeDao" ref="judgeDao" />
+		<property name="contestorScoreDao" ref="contestorScoreDao" />
+		<property name="speechScoreDao" ref="speechScoreDao" />
 	</bean>
 </beans>

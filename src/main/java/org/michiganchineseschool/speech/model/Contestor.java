@@ -11,6 +11,20 @@ public class Contestor implements Serializable {
 	private int contestOrder;
 	private List<Student> students;
 	private List<ScoreRuleItem> scoreRuleItems;
+	private int totalScore;
+
+	public int getTotalScore() {
+		totalScore = 0;
+		for (ScoreRuleItem scoreRuleItem : getScoreRuleItems()) {
+			totalScore += scoreRuleItem.getSpeechScore().getScore()
+					* scoreRuleItem.getWeight() / 100;
+		}
+		return totalScore;
+	}
+
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
+	}
 
 	public List<Student> getStudents() {
 		return students;

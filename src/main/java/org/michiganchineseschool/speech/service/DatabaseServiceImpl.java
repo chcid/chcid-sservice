@@ -6,12 +6,14 @@ import org.michiganchineseschool.speech.dao.ContestDao;
 import org.michiganchineseschool.speech.dao.ContestGroupDao;
 import org.michiganchineseschool.speech.dao.ContestorDao;
 import org.michiganchineseschool.speech.dao.ContestorIndividualDao;
+import org.michiganchineseschool.speech.dao.ContestorScoreDao;
 import org.michiganchineseschool.speech.dao.JudgeDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
 import org.michiganchineseschool.speech.dao.ScoreCountingTypeDao;
 import org.michiganchineseschool.speech.dao.ScoreRuleDao;
 import org.michiganchineseschool.speech.dao.ScoreRuleItemDao;
+import org.michiganchineseschool.speech.dao.SpeechScoreDao;
 import org.michiganchineseschool.speech.dao.StaffDao;
 import org.michiganchineseschool.speech.dao.StudentDao;
 import org.michiganchineseschool.speech.dao.TimeLimitRuleDao;
@@ -20,14 +22,17 @@ import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Contestor;
 import org.michiganchineseschool.speech.model.ContestorIndividual;
+import org.michiganchineseschool.speech.model.ContestorScore;
 import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
 import org.michiganchineseschool.speech.model.ScoreRuleItem;
+import org.michiganchineseschool.speech.model.SpeechScore;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 import org.michiganchineseschool.speech.model.TimeLimitRule;
+import org.springframework.dao.DuplicateKeyException;
 
 public class DatabaseServiceImpl implements DatabaseService {
 	private StudentDao studentDao;
@@ -43,6 +48,24 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private ContestorDao contestorDao;
 	private ContestorIndividualDao contestorIndividualDao;
 	private JudgeDao judgeDao;
+	private ContestorScoreDao contestorScoreDao;
+	private SpeechScoreDao speechScoreDao;
+
+	public SpeechScoreDao getSpeechScoreDao() {
+		return speechScoreDao;
+	}
+
+	public void setSpeechScoreDao(SpeechScoreDao speechScoreDao) {
+		this.speechScoreDao = speechScoreDao;
+	}
+
+	public ContestorScoreDao getContestorScoreDao() {
+		return contestorScoreDao;
+	}
+
+	public void setContestorScoreDao(ContestorScoreDao contestorScoreDao) {
+		this.contestorScoreDao = contestorScoreDao;
+	}
 
 	public JudgeDao getJudgeDao() {
 		return judgeDao;
@@ -409,6 +432,9 @@ public class DatabaseServiceImpl implements DatabaseService {
 			throws Exception {
 		contestGroup.setScoreRule(getScoreRuleDao().select(
 				contestGroup.getScoreRule().getIdscore_rule()));
+		contestGroup.getScoreRule().setScoreRuleItems(
+				getScoreRuleItemDao().selectByContestGroup(
+						contestGroup.getIdcontest_group()));
 	}
 
 	protected void setScoreCountingTypeForContestGroup(ContestGroup contestGroup)
@@ -631,6 +657,41 @@ public class DatabaseServiceImpl implements DatabaseService {
 
 	public List<Contestor> selectContestorByContestGroup(String idcontestGroup,
 			String idstaff, String idrole) throws Exception {
+		// first, we insert to contestor_score for all contestor of this Judge
+		List<ContestorScore> contestorScores = getContestorScoreDao()
+				.selectByContestGroupRoleJudge(idcontestGroup, idstaff, idrole);
+		for (ContestorScore contestorScore : contestorScores) {
+			try {
+				getContestorScoreDao().insert(contestorScore);
+			} catch (DuplicateKeyException e) {
+				// Duplicated Key is fine here
+			}
+		}
+		if ("1".equals(idrole)) {
+			// TODO
+			// need to improve the hard coded role id
+			// if the role is judge to score ( 40%/40%/40% etc....
+			// we insert new empty record to speech_score
+			List<ScoreRuleItem> scoreRuleItems = getScoreRuleItemDao()
+					.selectByContestGroup(idcontestGroup);
+			for (ContestorScore contestorScore : contestorScores) {
+				// to get the idcontest_score back
+				contestorScore = getContestorScoreDao().select(contestorScore);
+				for (ScoreRuleItem scoreRuleItem : scoreRuleItems) {
+					try {
+						SpeechScore speechScore = new SpeechScore();
+						speechScore.setScoreRuleItem(scoreRuleItem);
+						speechScore.setContestorScore(contestorScore);
+						getSpeechScoreDao().insert(speechScore);
+					} catch (DuplicateKeyException e) {
+						// Duplicated Key is fine here
+					}
+				}
+			}
+		}
+
+		// then we insert to speech_score for all score_rule_item of the
+		// score_rule for all contestors of this judge
 		List<Contestor> contestors = getContestorDao().selectByContestGroup(
 				idcontestGroup);
 		setStudentsForContestors(contestors);
@@ -652,8 +713,8 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private void setScoreForScoreRuleItems(List<ScoreRuleItem> scoreRuleItems,
 			String idcontestor, String idstaff, String idrole) throws Exception {
 		for (ScoreRuleItem scoreRuleItem : scoreRuleItems) {
-			scoreRuleItem.setScore(getScoreRuleItemDao()
-					.getScoreByContestorRoleStaffScoreRuleItem(idcontestor,
+			scoreRuleItem.setSpeechScore(getSpeechScoreDao()
+					.selectByContestorRoleStaffScoreRuleItem(idcontestor,
 							idrole, idstaff,
 							scoreRuleItem.getIdscore_rule_item()));
 		}
@@ -667,4 +728,18 @@ public class DatabaseServiceImpl implements DatabaseService {
 					contestor.getIdcontestor()));
 		}
 	}
+
+	@Override
+	public void updateSpeechScore(SpeechScore record) throws Exception {
+		getSpeechScoreDao().update(record);
+	}
+
+	@Override
+	public void updateSpeechScoreByContestor(Contestor contestor)
+			throws Exception {
+		for (ScoreRuleItem scoreRuleItem : contestor.getScoreRuleItems()) {
+			updateSpeechScore(scoreRuleItem.getSpeechScore());
+		}
+	}
+
 }

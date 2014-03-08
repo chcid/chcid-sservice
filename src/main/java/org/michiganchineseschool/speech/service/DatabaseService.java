@@ -12,6 +12,7 @@ import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
 import org.michiganchineseschool.speech.model.ScoreRuleItem;
+import org.michiganchineseschool.speech.model.SpeechScore;
 import org.michiganchineseschool.speech.model.Staff;
 import org.michiganchineseschool.speech.model.Student;
 import org.michiganchineseschool.speech.model.TimeLimitRule;
@@ -161,5 +162,10 @@ public interface DatabaseService {
 
 	public List<Contestor> selectContestorByContestGroup(String idcontestGroup,
 			String idstaff, String idrole) throws Exception;
+
+	public void updateSpeechScore(SpeechScore speechScore) throws Exception;
+
+	public void updateSpeechScoreByContestor(Contestor contestor)
+			throws Exception;
 
 }

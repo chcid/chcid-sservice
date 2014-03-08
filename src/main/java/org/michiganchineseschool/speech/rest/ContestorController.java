@@ -60,5 +60,4 @@ public class ContestorController extends BaseController {
 		getDatabaseService().updateContestor(record);
 		return new BaseResponse();
 	}
-
 }

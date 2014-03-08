@@ -8,14 +8,14 @@ public class ScoreRuleItem implements Serializable {
 	private String name;
 	private int weight;
 	private ScoreRule scoreRule;
-	private int score;
+	private SpeechScore speechScore;
 
-	public int getScore() {
-		return score;
+	public SpeechScore getSpeechScore() {
+		return speechScore;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setSpeechScore(SpeechScore speechScore) {
+		this.speechScore = speechScore;
 	}
 
 	public String getIdscore_rule_item() {

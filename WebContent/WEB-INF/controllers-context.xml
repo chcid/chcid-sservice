@@ -69,4 +69,8 @@
 	<bean id="judgeController" class="org.michiganchineseschool.speech.rest.JudgeController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+	<bean id="speechScoreController"
+		class="org.michiganchineseschool.speech.rest.SpeechScoreController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 </beans>
