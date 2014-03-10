@@ -12,12 +12,34 @@ public class Contestor implements Serializable {
 	private List<Student> students;
 	private List<ScoreRuleItem> scoreRuleItems;
 	private int totalScore;
+	private TimeScore timeScore;
+	private ScoreMarking scoreMarking;
+
+	public TimeScore getTimeScore() {
+		return timeScore;
+	}
+
+	public void setTimeScore(TimeScore timeScore) {
+		this.timeScore = timeScore;
+	}
+
+	public ScoreMarking getScoreMarking() {
+		return scoreMarking;
+	}
+
+	public void setScoreMarking(ScoreMarking scoreMarking) {
+		this.scoreMarking = scoreMarking;
+	}
 
 	public int getTotalScore() {
 		totalScore = 0;
-		for (ScoreRuleItem scoreRuleItem : getScoreRuleItems()) {
-			totalScore += scoreRuleItem.getSpeechScore().getScore()
-					* scoreRuleItem.getWeight() / 100;
+		try {
+			for (ScoreRuleItem scoreRuleItem : getScoreRuleItems()) {
+				totalScore += scoreRuleItem.getSpeechScore().getScore()
+						* scoreRuleItem.getWeight() / 100;
+			}
+		} catch (NullPointerException e) {
+			// null pointer is fine here
 		}
 		return totalScore;
 	}
