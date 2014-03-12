@@ -78,9 +78,9 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 	}
 
 	@Override
-	public List<ContestGroup> selectListForLoginedStaff(String idstaff)
-			throws Exception {
-		String sql = "SELECT cg.*, r.idrole FROM speech.contest c, speech.contest_group cg, speech.judge j, speech.staff s, speech.role r"
+	public List<ContestGroup> selectListForLoginedStaff(String idstaff,
+			boolean isUnSubmitOnly) throws Exception {
+		String sql = "SELECT cg.*, r.idrole, j.idjudge FROM speech.contest c, speech.contest_group cg, speech.judge j, speech.staff s, speech.role r"
 				+ " where"
 				+ " c.idcontest = cg.idcontest"
 				+ " and cg.idcontest_group = j.idcontest_group"
@@ -89,6 +89,9 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 				+ " and c.active = 1"
 				+ " and c.idcontest = 1"
 				+ " and s.idstaff = " + idstaff;
+		if (isUnSubmitOnly) {
+			sql += " and j.is_submit = 0";
+		}
 		return getJdbcTemplate().query(sql, new ContestGroupRowMapper());
 	}
 }

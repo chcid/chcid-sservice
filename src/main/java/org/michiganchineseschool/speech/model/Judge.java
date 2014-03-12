@@ -8,6 +8,29 @@ public class Judge implements Serializable {
 	private ContestGroup contestGroup;
 	private Staff staff;
 	private Role role;
+	private int isSubmit;
+
+	public String getIsSubmitText() {
+		if (isSubmit()) {
+			return "Yes";
+		}
+		return "No";
+	}
+
+	public void setIsSubmitText(String isSubmitText) {
+	}
+
+	public boolean isSubmit() {
+		return (1 == isSubmit);
+	}
+
+	public void setSubmit(boolean isSubmit) {
+		if (isSubmit) {
+			this.isSubmit = 1;
+		} else {
+			this.isSubmit = 0;
+		}
+	}
 
 	public String getIdjudge() {
 		return idjudge;

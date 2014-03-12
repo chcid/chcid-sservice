@@ -485,6 +485,18 @@ public class DatabaseServiceImpl implements DatabaseService {
 		setScoreRuleForContestGroup(contestGroup);
 		setScoreCountingTypeForContestGroup(contestGroup);
 		setRoleForContestGroup(contestGroup);
+		setJudgeForContestGroup(contestGroup);
+	}
+
+	private void setJudgeForContestGroup(ContestGroup contestGroup)
+			throws Exception {
+		if (null == contestGroup.getJudge()
+				|| null == contestGroup.getJudge().getIdjudge()) {
+			return;
+		}
+		contestGroup.setJudge(getJudgeDao().select(
+				contestGroup.getJudge().getIdjudge()));
+
 	}
 
 	@Override
@@ -670,9 +682,9 @@ public class DatabaseServiceImpl implements DatabaseService {
 
 	@Override
 	public List<ContestGroup> selectContestGroupListForLoginedStaff(
-			String idstaff) throws Exception {
+			String idstaff, boolean isUnSubmitOnly) throws Exception {
 		List<ContestGroup> contestGroups = getContestGroupDao()
-				.selectListForLoginedStaff(idstaff);
+				.selectListForLoginedStaff(idstaff, isUnSubmitOnly);
 		setFidForContestGroups(contestGroups);
 		return contestGroups;
 	}

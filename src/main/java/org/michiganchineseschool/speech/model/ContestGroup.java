@@ -12,6 +12,16 @@ public class ContestGroup implements Serializable {
 	private ScoreRule scoreRule;
 	private ScoreCountingType scoreCountingType;
 	private Role role;
+	private Judge judge;
+	
+
+	public Judge getJudge() {
+		return judge;
+	}
+
+	public void setJudge(Judge judge) {
+		this.judge = judge;
+	}
 
 	public Role getRole() {
 		return role;

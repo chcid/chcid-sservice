@@ -158,7 +158,7 @@ public interface DatabaseService {
 	public List<Staff> selectListForLogin() throws Exception;
 
 	public List<ContestGroup> selectContestGroupListForLoginedStaff(
-			String idstaff) throws Exception;
+			String idstaff, boolean isUnSubmitOnly) throws Exception;
 
 	public List<Contestor> selectContestorByContestGroup(String idcontestGroup,
 			String idstaff, String idrole) throws Exception;

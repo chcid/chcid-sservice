@@ -24,6 +24,7 @@ public class JudgeResultSetExtractor implements ResultSetExtractor<Judge> {
 		Role role = new Role();
 		role.setIdrole(rs.getString("IDROLE"));
 		record.setRole(role);
+		record.setSubmit(1 == rs.getInt("IS_SUBMIT"));
 		return record;
 	}
 }

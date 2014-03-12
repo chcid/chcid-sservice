@@ -17,10 +17,10 @@ public class ScoreMarkingResultSetExtractor implements
 		ContestorScore contestorScore = new ContestorScore();
 		contestorScore.setIdcontestor_score(rs.getString("IDCONTESTOR_SCORE"));
 		record.setContestorScore(contestorScore);
-		record.setRollCallMarking(rs.getInt("ROLL_CALL_MARKING"));
-		record.setFlashLightMarking(rs.getInt("FLASH_LIGHT_MARKING"));
-		record.setAudienceHelper(rs.getInt("AUDIENCE_HELPER"));
-		record.setAbsence(rs.getInt("ABSENCE"));
+		record.setRollCallMarking(rs.getString("ROLL_CALL_MARKING"));
+		record.setFlashLightMarking(rs.getString("FLASH_LIGHT_MARKING"));
+		record.setAudienceHelper(rs.getString("AUDIENCE_HELPER"));
+		record.setAbsence(rs.getString("ABSENCE"));
 		return record;
 	}
 }

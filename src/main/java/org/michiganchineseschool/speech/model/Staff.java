@@ -9,6 +9,15 @@ public class Staff implements Serializable {
 	private String chineseFirstName;
 	private String englishLastName;
 	private String englishFirstName;
+	private String password;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public String getIdstaff() {
 		return idstaff;

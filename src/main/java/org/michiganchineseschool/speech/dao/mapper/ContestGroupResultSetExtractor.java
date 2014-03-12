@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.michiganchineseschool.speech.model.Contest;
 import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
+import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
 import org.michiganchineseschool.speech.model.ScoreRule;
@@ -40,6 +41,13 @@ public class ContestGroupResultSetExtractor implements
 			Role role = new Role();
 			role.setIdrole(rs.getString("IDROLE"));
 			record.setRole(role);
+		} catch (Exception e) {
+			// ok to throw exception here
+		}
+		try {
+			Judge judge = new Judge();
+			judge.setIdjudge(rs.getString("IDJUDGE"));
+			record.setJudge(judge);
 		} catch (Exception e) {
 			// ok to throw exception here
 		}

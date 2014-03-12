@@ -16,6 +16,7 @@ public class StaffResultSetExtractor implements ResultSetExtractor<Staff> {
 		record.setChineseLastName(rs.getString("CHINESE_LASTNAME"));
 		record.setEnglishFirstName(rs.getString("ENGLISH_FIRSTNAME"));
 		record.setEnglishLastName(rs.getString("ENGLISH_LASTNAME"));
+		record.setPassword(rs.getString("PASSWORD"));
 		return record;
 	}
 }

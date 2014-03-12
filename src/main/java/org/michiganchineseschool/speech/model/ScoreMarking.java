@@ -27,36 +27,46 @@ public class ScoreMarking implements Serializable {
 		this.contestorScore = contestorScore;
 	}
 
-	public int getRollCallMarking() {
-		return rollCallMarking;
+	public String getRollCallMarking() {
+		return String.valueOf(rollCallMarking);
 	}
 
-	public void setRollCallMarking(int rollCallMarking) {
-		this.rollCallMarking = rollCallMarking;
+	public void setRollCallMarking(String rollCallMarking) {
+		this.rollCallMarking = Integer.parseInt(rollCallMarking);
 	}
 
-	public int getFlashLightMarking() {
-		return flashLightMarking;
+	public String getFlashLightMarking() {
+		return String.valueOf(flashLightMarking);
 	}
 
-	public void setFlashLightMarking(int flash_light_marking) {
-		this.flashLightMarking = flash_light_marking;
+	public void setFlashLightMarking(String flash_light_marking) {
+		this.flashLightMarking = Integer.parseInt(flash_light_marking);
 	}
 
-	public int getAudienceHelper() {
-		return audienceHelper;
+	public String getAudienceHelper() {
+		return String.valueOf(audienceHelper);
 	}
 
-	public void setAudienceHelper(int audience_helper) {
-		this.audienceHelper = audience_helper;
+	public void setAudienceHelper(String audience_helper) {
+		this.audienceHelper = Integer.parseInt(audience_helper);
 	}
 
-	public int getAbsence() {
-		return absence;
+	public String getAbsence() {
+		return String.valueOf(this.absence);
 	}
 
-	public void setAbsence(int absence) {
-		this.absence = absence;
+	public void setAbsence(String absence) {
+		this.absence = Integer.parseInt(absence);
+	}
+
+	public String getAbsenceText() {
+		if (0 == this.absence) {
+			return "ÓÐµ½";
+		}
+		return "—‰™à";
+	}
+
+	public void setAbsenceText(String tex) {
 	}
 
 }

@@ -23,7 +23,7 @@ public class ContestGroupController extends BaseController {
 	List<ContestGroup> getSelectListForLoginedStaff(
 			@PathVariable(value = "idstaff") String idstaff) throws Exception {
 		return getDatabaseService().selectContestGroupListForLoginedStaff(
-				idstaff);
+				idstaff, true);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

@@ -10,22 +10,13 @@ public class JudgeDaoImpl extends BaseDaoImpl implements JudgeDao {
 
 	@Override
 	public void insert(Judge record) throws Exception {
-		String sql = "INSERT INTO " + TableName
-				+ " ( IDCONTEST_GROUP, IDSTAFF, IDROLE ) VALUES ( ?, ?, ? )";
-		getJdbcTemplate().update(
-				sql,
-				new Object[] {
-						nullIdFilter(record.getContestGroup(), "contest_group",
-								"ContestGroup"),
-						nullIdFilter(record.getStaff(), "staff", "Staff"),
-						nullIdFilter(record.getRole(), "role", "Role") });
-	}
-
-	@Override
-	public void update(Judge record) throws Exception {
-		String sql = "UPDATE " + TableName
-				+ " SET IDCONTEST_GROUP = ?, IDSTAFF = ?, IDROLE = ? WHERE ID"
-				+ TableName + " = ?";
+		String sql = "INSERT INTO "
+				+ TableName
+				+ " ( IDCONTEST_GROUP, IDSTAFF, IDROLE, IS_SUBMIT ) VALUES ( ?, ?, ?, ? )";
+		int submitValue = 0;
+		if (record.isSubmit()) {
+			submitValue = 1;
+		}
 		getJdbcTemplate().update(
 				sql,
 				new Object[] {
@@ -33,7 +24,27 @@ public class JudgeDaoImpl extends BaseDaoImpl implements JudgeDao {
 								"ContestGroup"),
 						nullIdFilter(record.getStaff(), "staff", "Staff"),
 						nullIdFilter(record.getRole(), "role", "Role"),
-						record.getIdjudge() });
+						submitValue });
+	}
+
+	@Override
+	public void update(Judge record) throws Exception {
+		String sql = "UPDATE "
+				+ TableName
+				+ " SET IDCONTEST_GROUP = ?, IDSTAFF = ?, IDROLE = ?, IS_SUBMIT = ? WHERE ID"
+				+ TableName + " = ?";
+		int submitValue = 0;
+		if (record.isSubmit()) {
+			submitValue = 1;
+		}
+		getJdbcTemplate().update(
+				sql,
+				new Object[] {
+						nullIdFilter(record.getContestGroup(), "contest_group",
+								"ContestGroup"),
+						nullIdFilter(record.getStaff(), "staff", "Staff"),
+						nullIdFilter(record.getRole(), "role", "Role"),
+						submitValue, record.getIdjudge() });
 	}
 
 	@Override

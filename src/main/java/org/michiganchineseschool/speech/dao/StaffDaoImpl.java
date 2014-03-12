@@ -14,13 +14,13 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
 	public void insert(Staff record) throws Exception {
 		String sql = "INSERT INTO "
 				+ TableName
-				+ " ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME ) VALUES ( ?,?,?,? )";
+				+ " ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, PASSWORD ) VALUES ( ?,?,?,?,? )";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { record.getChineseLastName(),
 						record.getChineseFirstName(),
 						record.getEnglishLastName(),
-						record.getEnglishFirstName() });
+						record.getEnglishFirstName(), record.getPassword() });
 
 	}
 
@@ -28,14 +28,15 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
 	public void update(Staff record) throws Exception {
 		String sql = "UPDATE "
 				+ TableName
-				+ " SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ? WHERE ID"
+				+ " SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, PASSWORD = ? WHERE ID"
 				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { record.getChineseLastName(),
 						record.getChineseFirstName(),
 						record.getEnglishLastName(),
-						record.getEnglishFirstName(), record.getIdstaff() });
+						record.getEnglishFirstName(), record.getPassword(),
+						record.getIdstaff() });
 	}
 
 	@Override
