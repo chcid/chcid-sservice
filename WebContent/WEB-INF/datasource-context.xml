@@ -49,5 +49,6 @@
 		<property name="speechScoreDao" ref="speechScoreDao" />
 		<property name="timeScoreDao" ref="timeScoreDao" />
 		<property name="scoreMarkingDao" ref="scoreMarkingDao" />
+		<property name="gradYearDao" ref="gradYearDao" />
 	</bean>
 </beans>

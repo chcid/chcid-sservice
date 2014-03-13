@@ -73,4 +73,8 @@
 		class="org.michiganchineseschool.speech.rest.SpeechScoreController">
 		<property name="databaseService" ref="databaseService" />
 	</bean>
+	<bean id="gradYearController"
+		class="org.michiganchineseschool.speech.rest.GradYearController">
+		<property name="databaseService" ref="databaseService" />
+	</bean>
 </beans>

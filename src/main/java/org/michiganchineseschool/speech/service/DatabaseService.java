@@ -7,6 +7,7 @@ import org.michiganchineseschool.speech.model.ContestGroup;
 import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Contestor;
 import org.michiganchineseschool.speech.model.ContestorIndividual;
+import org.michiganchineseschool.speech.model.GradYear;
 import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
@@ -168,4 +169,13 @@ public interface DatabaseService {
 	public void updateSpeechScoreByContestor(Contestor contestor)
 			throws Exception;
 
+	public GradYear getGradYearById(String id) throws Exception;
+
+	public List<GradYear> getAllGradYears() throws Exception;
+
+	public void deleteGradYear(String id) throws Exception;
+
+	public void insertGradYear(GradYear record) throws Exception;
+
+	public void updateGradYear(GradYear record) throws Exception;
 }

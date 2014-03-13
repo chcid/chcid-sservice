@@ -7,6 +7,7 @@ import org.michiganchineseschool.speech.dao.ContestGroupDao;
 import org.michiganchineseschool.speech.dao.ContestorDao;
 import org.michiganchineseschool.speech.dao.ContestorIndividualDao;
 import org.michiganchineseschool.speech.dao.ContestorScoreDao;
+import org.michiganchineseschool.speech.dao.GradYearDao;
 import org.michiganchineseschool.speech.dao.JudgeDao;
 import org.michiganchineseschool.speech.dao.LocationDao;
 import org.michiganchineseschool.speech.dao.RoleDao;
@@ -25,6 +26,7 @@ import org.michiganchineseschool.speech.model.ContestLocation;
 import org.michiganchineseschool.speech.model.Contestor;
 import org.michiganchineseschool.speech.model.ContestorIndividual;
 import org.michiganchineseschool.speech.model.ContestorScore;
+import org.michiganchineseschool.speech.model.GradYear;
 import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Role;
 import org.michiganchineseschool.speech.model.ScoreCountingType;
@@ -56,6 +58,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	private SpeechScoreDao speechScoreDao;
 	private TimeScoreDao timeScoreDao;
 	private ScoreMarkingDao scoreMarkingDao;
+	private GradYearDao gradYearDao;
+
+	public GradYearDao getGradYearDao() {
+		return gradYearDao;
+	}
+
+	public void setGradYearDao(GradYearDao gradYearDao) {
+		this.gradYearDao = gradYearDao;
+	}
 
 	public TimeScoreDao getTimeScoreDao() {
 		return timeScoreDao;
@@ -196,12 +207,28 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	public Student getStudentById(String id) throws Exception {
-		return getStudentDao().select(id);
+		Student student = getStudentDao().select(id);
+		setGradYearForStudent(student);
+		return student;
+	}
+
+	private void setGradYearForStudent(Student student) throws Exception {
+		student.setGradYear(getGradYearDao().select(
+				student.getGradYear().getIdgrad_year()));
 	}
 
 	@Override
 	public List<Student> getAllStudents() throws Exception {
-		return getStudentDao().selectAll();
+		List<Student> students = getStudentDao().selectAll();
+		setGradYearForStudents(students);
+		return students;
+	}
+
+	private void setGradYearForStudents(List<Student> students)
+			throws Exception {
+		for (Student student : students) {
+			setGradYearForStudent(student);
+		}
 	}
 
 	@Override
@@ -824,6 +851,31 @@ public class DatabaseServiceImpl implements DatabaseService {
 		if (null != contestor.getScoreMarking()) {
 			getScoreMarkingDao().update(contestor.getScoreMarking());
 		}
+	}
+
+	@Override
+	public GradYear getGradYearById(String id) throws Exception {
+		return getGradYearDao().select(id);
+	}
+
+	@Override
+	public List<GradYear> getAllGradYears() throws Exception {
+		return getGradYearDao().selectAll();
+	}
+
+	@Override
+	public void deleteGradYear(String id) throws Exception {
+		getGradYearDao().delete(id);
+	}
+
+	@Override
+	public void insertGradYear(GradYear record) throws Exception {
+		getGradYearDao().insert(record);
+	}
+
+	@Override
+	public void updateGradYear(GradYear record) throws Exception {
+		getGradYearDao().update(record);
 	}
 
 }

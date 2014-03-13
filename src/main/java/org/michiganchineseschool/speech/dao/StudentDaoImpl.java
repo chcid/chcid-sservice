@@ -12,13 +12,16 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
 	public void insert(Student record) throws Exception {
 		String sql = "INSERT INTO "
 				+ TableName
-				+ " ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, GRAD_YEAR ) VALUES ( ?,?,?,?,? )";
+				+ " ( CHINESE_LASTNAME, CHINESE_FIRSTNAME, ENGLISH_LASTNAME, ENGLISH_FIRSTNAME, IDGRAD_YEAR ) VALUES ( ?,?,?,?,? )";
 		getJdbcTemplate().update(
 				sql,
-				new Object[] { record.getChineseLastName(),
+				new Object[] {
+						record.getChineseLastName(),
 						record.getChineseFirstName(),
 						record.getEnglishLastName(),
-						record.getEnglishFirstName(), record.getGradYear() });
+						record.getEnglishFirstName(),
+						nullIdFilter(record.getGradYear(), "grad_year",
+								"GradYear") });
 
 	}
 
@@ -26,15 +29,17 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
 	public void update(Student record) throws Exception {
 		String sql = "UPDATE "
 				+ TableName
-				+ " SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, GRAD_YEAR = ? WHERE ID"
+				+ " SET CHINESE_LASTNAME = ?, CHINESE_FIRSTNAME = ?, ENGLISH_LASTNAME = ?, ENGLISH_FIRSTNAME = ?, IDGRAD_YEAR = ? WHERE ID"
 				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
-				new Object[] { record.getChineseLastName(),
+				new Object[] {
+						record.getChineseLastName(),
 						record.getChineseFirstName(),
 						record.getEnglishLastName(),
-						record.getEnglishFirstName(), record.getGradYear(),
-						record.getIdstudent() });
+						record.getEnglishFirstName(),
+						nullIdFilter(record.getGradYear(), "grad_year",
+								"GradYear"), record.getIdstudent() });
 	}
 
 	@Override

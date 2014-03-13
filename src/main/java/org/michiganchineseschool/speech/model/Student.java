@@ -9,13 +9,13 @@ public class Student implements Serializable {
 	private String chineseFirstName;
 	private String englishLastName;
 	private String englishFirstName;
-	private String gradYear;
+	private GradYear gradYear;
 
-	public String getGradYear() {
+	public GradYear getGradYear() {
 		return gradYear;
 	}
 
-	public void setGradYear(String gradYear) {
+	public void setGradYear(GradYear gradYear) {
 		this.gradYear = gradYear;
 	}
 
