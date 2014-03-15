@@ -19,4 +19,6 @@ public interface SpeechScoreDao {
 			String idcontestor, String idrole, String idstaff,
 			String idscoreRuleItem) throws Exception;
 
+	public List<SpeechScore> selectByContestorScore(String id) throws Exception;
+
 }

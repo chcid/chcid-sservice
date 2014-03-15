@@ -17,6 +17,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(value = "/contest_group")
 public class ContestGroupController extends BaseController {
 
+	@RequestMapping(value = "/onlyActivateContest", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	List<ContestGroup> getSelectListForLoginedStaff() throws Exception {
+		return getDatabaseService().getActivateContestContestGroup();
+	}
+
 	@RequestMapping(value = "/staff/{idstaff}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody

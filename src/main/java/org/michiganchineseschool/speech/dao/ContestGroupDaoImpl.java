@@ -94,4 +94,12 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 		}
 		return getJdbcTemplate().query(sql, new ContestGroupRowMapper());
 	}
+
+	@Override
+	public List<ContestGroup> selectByActivateContest() throws Exception {
+		String sql = "SELECT * FROM "
+				+ TableName
+				+ " cg, CONTEST c WHERE c.idcontest = cg.idcontest and c.active = 1";
+		return getJdbcTemplate().query(sql, new ContestGroupRowMapper());
+	}
 }

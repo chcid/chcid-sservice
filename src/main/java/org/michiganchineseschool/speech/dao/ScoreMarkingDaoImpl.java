@@ -78,4 +78,15 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 		return getJdbcTemplate().queryForObject(sql,
 				new ScoreMarkingRowMapper());
 	}
+
+	@Override
+	public ScoreMarking selectByContestorScore(String id) throws Exception {
+		if (null == id) {
+			return new ScoreMarking();
+		}
+		String sql = "Select * FROM " + TableName + " WHERE IDCONTESTOR_SCORE = "
+				+ id;
+		return getJdbcTemplate().queryForObject(sql,
+				new ScoreMarkingRowMapper());
+	}
 }

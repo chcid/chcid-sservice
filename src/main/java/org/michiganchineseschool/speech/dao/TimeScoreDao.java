@@ -18,4 +18,6 @@ public interface TimeScoreDao {
 	public TimeScore selectByContestorStaffRole(String idcontestor,
 			String idrole, String idstaff) throws Exception;
 
+	public TimeScore selectByContestorScore(String id) throws Exception;
+
 }

@@ -84,4 +84,11 @@ public class SpeechScoreDaoImpl extends BaseDaoImpl implements SpeechScoreDao {
 		return getJdbcTemplate()
 				.queryForObject(sql, new SpeechScoreRowMapper());
 	}
+
+	@Override
+	public List<SpeechScore> selectByContestorScore(String id) throws Exception {
+		String sql = "SELECT * FROM " + TableName
+				+ " WHERE IDCONTESTOR_SCORE = " + id;
+		return getJdbcTemplate().query(sql, new SpeechScoreRowMapper());
+	}
 }

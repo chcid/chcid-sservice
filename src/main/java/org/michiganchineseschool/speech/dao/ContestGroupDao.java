@@ -17,5 +17,7 @@ public interface ContestGroupDao {
 
 	public List<ContestGroup> selectListForLoginedStaff(String idstaff,
 			boolean isUnSubmitOnly) throws Exception;
+	
+	public List<ContestGroup> selectByActivateContest() throws Exception;
 
 }

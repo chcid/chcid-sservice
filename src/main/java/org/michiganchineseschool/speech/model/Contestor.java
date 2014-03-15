@@ -1,9 +1,10 @@
 package org.michiganchineseschool.speech.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Contestor implements Serializable {
+public class Contestor implements Serializable, Comparable<Contestor> {
 	static final long serialVersionUID = 1l;
 	private String idcontestor;
 	private ContestGroup contestGroup;
@@ -14,6 +15,162 @@ public class Contestor implements Serializable {
 	private int totalScore;
 	private TimeScore timeScore;
 	private ScoreMarking scoreMarking;
+	// //////////////////////
+	// the following are for report
+	private List<ContestorScore> contestorScores;
+	private int totalSpeechScore;
+	private int totalScoreMarking;
+	private int totalTimeScore;
+	private int finalScore;
+	private int finalRank;
+
+	public int getFinalRank() {
+		return finalRank;
+	}
+
+	public void setFinalRank(int finalRank) {
+		this.finalRank = finalRank;
+	}
+
+	private ScoreRuleItem findTheScoreRuleItem(ScoreRuleItem scoreRuleItem,
+			List<ScoreRuleItem> scoreRuleItemSums) {
+		if (null == scoreRuleItemSums) {
+			return null;
+		}
+		for (ScoreRuleItem sri : scoreRuleItemSums) {
+			if (sri.getIdscore_rule_item().equals(
+					scoreRuleItem.getIdscore_rule_item())) {
+				return sri;
+			}
+		}
+		return null;
+	}
+
+	public List<ScoreRuleItem> getScoreRuleItemSums() {
+		if (null == contestorScores) {
+			return null;
+		}
+		List<ScoreRuleItem> scoreRuleItemSums = new ArrayList<ScoreRuleItem>();
+		for (ContestorScore contestorScore : contestorScores) {
+			List<SpeechScore> speechScores = contestorScore.getSpeechScores();
+			if (null == speechScores) {
+				continue;
+			}
+			for (SpeechScore speechScore : speechScores) {
+				ScoreRuleItem sri = findTheScoreRuleItem(
+						speechScore.getScoreRuleItem(), scoreRuleItemSums);
+				if (null == sri) {
+					sri = speechScore.getScoreRuleItem();
+					SpeechScore sc = new SpeechScore();
+					sc.setScore(speechScore.getScore());
+					sri.setSpeechScore(sc);
+					scoreRuleItemSums.add(sri);
+				} else {
+					sri.getSpeechScore().setScore(
+							sri.getSpeechScore().getScore()
+									+ speechScore.getScore());
+
+				}
+			}
+		}
+		return scoreRuleItemSums;
+	}
+
+	public void setScoreRuleItemSums(List<ScoreRuleItem> scoreRuleItemSums) {
+		// this.scoreRuleItemSums = scoreRuleItemSums;
+	}
+
+	public int getFinalScore() {
+		finalScore = getTotalScoreMarking() + getTotalSpeechScore()
+				+ getTotalTimeScore();
+		return finalScore;
+	}
+
+	public void setFinalScore(int finalScore) {
+		// this.finalScore = finalScore;
+	}
+
+	public int getTotalScoreMarking() {
+		totalScoreMarking = 0;
+		if (null == contestorScores) {
+			return 0;
+		}
+		for (ContestorScore contestorScore : contestorScores) {
+			try {
+				if ("2".equals(contestorScore.getJudge().getRole().getIdrole())) {
+					totalScoreMarking += contestorScore.getScoreMarkingTotal();
+				}
+			} catch (NullPointerException e) {
+				// null pointer is ok here
+			}
+		}
+		return totalScoreMarking;
+	}
+
+	public void setTotalScoreMarking(int totalScoreMarking) {
+		// this.totalScoreMarking = totalScoreMarking;
+	}
+
+	public int getTotalTimeScore() {
+		totalTimeScore = 0;
+		if (null == contestorScores) {
+			return 0;
+		}
+		for (ContestorScore contestorScore : contestorScores) {
+			try {
+				if ("2".equals(contestorScore.getJudge().getRole().getIdrole())) {
+					totalTimeScore += contestorScore.getTimeScoreTotal();
+				}
+			} catch (NullPointerException e) {
+				// null pointer is ok here
+			}
+		}
+		return totalTimeScore;
+	}
+
+	public void setTotalTimeScore(int totalTimeScore) {
+		// this.totalTimeScore = totalTimeScore;
+	}
+
+	public int getTotalSpeechScore() {
+		totalSpeechScore = 0;
+		if (null == contestorScores) {
+			return 0;
+		}
+		for (ContestorScore contestorScore : contestorScores) {
+			try {
+				if ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
+					totalSpeechScore += contestorScore.getSpeechScoreTotal();
+				}
+			} catch (NullPointerException e) {
+				// null pointer is ok here
+			}
+		}
+
+		return totalSpeechScore;
+	}
+
+	public void setTotalSpeechScore(int totalSpeechScore) {
+		// this.totalSpeechScore = totalSpeechScore;
+	}
+
+	public int getTotalMarking() {
+		return totalMarking;
+	}
+
+	public void setTotalMarking(int totalMarking) {
+		this.totalMarking = totalMarking;
+	}
+
+	private int totalMarking;
+
+	public List<ContestorScore> getContestorScores() {
+		return contestorScores;
+	}
+
+	public void setContestorScores(List<ContestorScore> contestorScores) {
+		this.contestorScores = contestorScores;
+	}
 
 	public TimeScore getTimeScore() {
 		return timeScore;
@@ -96,4 +253,8 @@ public class Contestor implements Serializable {
 		this.contestOrder = contestrder;
 	}
 
+	public int compareTo(Contestor compareContestor) {
+		int finalScore = compareContestor.getFinalScore();
+		return finalScore - this.getFinalScore();
+	}
 }

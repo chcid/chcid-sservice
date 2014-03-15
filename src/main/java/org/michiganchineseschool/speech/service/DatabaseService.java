@@ -178,4 +178,9 @@ public interface DatabaseService {
 	public void insertGradYear(GradYear record) throws Exception;
 
 	public void updateGradYear(GradYear record) throws Exception;
+
+	public List<Contestor> getContestorScoreReportByContestGroup(String id)
+			throws Exception;
+
+	public List<ContestGroup> getActivateContestContestGroup() throws Exception;
 }

@@ -1,5 +1,6 @@
 package org.michiganchineseschool.speech.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.michiganchineseschool.speech.dao.ContestDao;
@@ -878,4 +879,108 @@ public class DatabaseServiceImpl implements DatabaseService {
 		getGradYearDao().update(record);
 	}
 
+	@Override
+	public List<Contestor> getContestorScoreReportByContestGroup(String id)
+			throws Exception {
+		List<Contestor> contestors = getContestorDao().selectByContestGroup(id);
+		setContestorScoreForContestors(contestors);
+		setStudentsForContestors(contestors);
+		setFinalRankForContestors(contestors);
+		return contestors;
+	}
+
+	private void setFinalRankForContestors(List<Contestor> contestors)
+			throws Exception {
+		Collections.sort(contestors);
+		int rank = 1;
+		for (Contestor contestor : contestors) {
+			contestor.setFinalRank(rank++);
+		}
+	}
+
+	private void setContestorScoreForContestors(List<Contestor> contestors)
+			throws Exception {
+		for (Contestor contestor : contestors) {
+			setContestScoreForContestor(contestor);
+		}
+	}
+
+	private void setContestScoreForContestor(Contestor contestor)
+			throws Exception {
+		List<ContestorScore> contestorScores = getContestorScoreDao()
+				.selectByContestor(contestor.getIdcontestor());
+		setScoresBasedOnJudgeRoleForContestorScores(contestorScores);
+		contestor.setContestorScores(contestorScores);
+	}
+
+	private void setScoresBasedOnJudgeRoleForContestorScores(
+			List<ContestorScore> contestorScores) throws Exception {
+		for (ContestorScore contestorScore : contestorScores) {
+			setScoresBasedOnJudgeRoleForContestorScore(contestorScore);
+		}
+	}
+
+	private void setScoresBasedOnJudgeRoleForContestorScore(
+			ContestorScore contestorScore) throws Exception {
+		contestorScore.setJudge(getJudgeById(contestorScore.getJudge()
+				.getIdjudge()));
+		if ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
+			// speech judge
+			setupSpeechScoresForContestorScore(contestorScore);
+		} else if ("2".equals(contestorScore.getJudge().getRole().getIdrole())) {
+			// timer judge
+			setupTimeScoreForContestorScore(contestorScore);
+			setupScoreMarkingForContestorScore(contestorScore);
+		}
+	}
+
+	private void setupScoreMarkingForContestorScore(
+			ContestorScore contestorScore) throws Exception {
+		contestorScore.setScoreMarking(getScoreMarkingDao()
+				.selectByContestorScore(contestorScore.getIdcontestor_score()));
+
+	}
+
+	private void setupTimeScoreForContestorScore(ContestorScore contestorScore)
+			throws Exception {
+		contestorScore.setTimeScore(getTimeScoreDao().selectByContestorScore(
+				contestorScore.getIdcontestor_score()));
+	}
+
+	private void setupSpeechScoresForContestorScore(
+			ContestorScore contestorScore) throws Exception {
+		List<SpeechScore> speechScores = getSpeechScoreDao()
+				.selectByContestorScore(contestorScore.getIdcontestor_score());
+		setScoreRuleItemForSpeechScores(speechScores);
+		contestorScore.setSpeechScores(speechScores);
+
+	}
+
+	private void setScoreRuleItemForSpeechScores(List<SpeechScore> speechScores)
+			throws Exception {
+		for (SpeechScore speechScore : speechScores) {
+			setScoreRuleItemForSpeechScore(speechScore);
+		}
+	}
+
+	private void setScoreRuleItemForSpeechScore(SpeechScore speechScore)
+			throws Exception {
+		speechScore.setScoreRuleItem(getScoreRuleItemDao().select(
+				speechScore.getScoreRuleItem().getIdscore_rule_item()));
+	}
+
+	@Override
+	public List<ContestGroup> getActivateContestContestGroup() throws Exception {
+		List<ContestGroup> contestGroups = getContestGroupDao()
+				.selectByActivateContest();
+		setScoreRuleForContestGroups(contestGroups);
+		return contestGroups;
+	}
+
+	private void setScoreRuleForContestGroups(List<ContestGroup> contestGroups)
+			throws Exception {
+		for (ContestGroup contestGroup : contestGroups) {
+			setScoreRuleForContestGroup(contestGroup);
+		}
+	}
 }

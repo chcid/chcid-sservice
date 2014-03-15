@@ -71,4 +71,14 @@ public class TimeScoreDaoImpl extends BaseDaoImpl implements TimeScoreDao {
 				+ " and c.idcontestor = " + idcontestor;
 		return getJdbcTemplate().queryForObject(sql, new TimeScoreRowMapper());
 	}
+
+	@Override
+	public TimeScore selectByContestorScore(String id) throws Exception {
+		if (null == id) {
+			return new TimeScore();
+		}
+		String sql = "Select * FROM " + TableName
+				+ " WHERE IDCONTESTOR_SCORE = " + id;
+		return getJdbcTemplate().queryForObject(sql, new TimeScoreRowMapper());
+	}
 }

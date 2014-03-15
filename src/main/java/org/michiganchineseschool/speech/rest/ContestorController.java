@@ -17,10 +17,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(value = "/contestor")
 public class ContestorController extends BaseController {
 
+	@RequestMapping(value = "/contest_group/{idcontestGroup}", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody
+	List<Contestor> getContestorsByContestGroupStaffRole(
+			@PathVariable(value = "idcontestGroup") String idcontestGroup)
+			throws Exception {
+		return getDatabaseService().getContestorScoreReportByContestGroup(
+				idcontestGroup);
+	}
+
 	@RequestMapping(value = "/contest_group/{idcontestGroup}/staff/{idstaff}/role/{idrole}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
-	List<Contestor> getContestorsByContestGroup(
+	List<Contestor> getContestorsByContestGroupStaffRole(
 			@PathVariable(value = "idcontestGroup") String idcontestGroup,
 			@PathVariable(value = "idstaff") String idstaff,
 			@PathVariable(value = "idrole") String idrole) throws Exception {

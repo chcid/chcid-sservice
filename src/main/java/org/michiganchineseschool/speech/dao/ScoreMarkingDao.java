@@ -18,4 +18,6 @@ public interface ScoreMarkingDao {
 	public ScoreMarking selectByContestorStaffRole(String idcontestor,
 			String idrole, String idstaff) throws Exception;
 
+	public ScoreMarking selectByContestorScore(String id) throws Exception;
+
 }
