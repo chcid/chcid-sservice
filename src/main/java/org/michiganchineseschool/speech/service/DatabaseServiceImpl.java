@@ -1,5 +1,6 @@
 package org.michiganchineseschool.speech.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -891,10 +892,33 @@ public class DatabaseServiceImpl implements DatabaseService {
 
 	private void setFinalRankForContestors(List<Contestor> contestors)
 			throws Exception {
+		// first to force to calculate the final score
+		for (Contestor contestor : contestors) {
+			contestor.getFinalScore();
+			// contestor.getTotalMarking();
+			// contestor.getTotalScore();
+			// contestor.getTotalScoreMarking();
+			// contestor.getTotalSpeechScore();
+			// contestor.getTotalTimeScore();
+		}
+		// take the abstained out for now
+		List<Contestor> absTaineds = new ArrayList<Contestor>();
+		for (Contestor contestor : contestors) {
+			if (contestor.isAbstained()) {
+				absTaineds.add(contestor);
+			}
+		}
+		for (Contestor contestor : absTaineds) {
+			contestors.remove(contestor);
+		}
 		Collections.sort(contestors);
 		int rank = 1;
 		for (Contestor contestor : contestors) {
 			contestor.setFinalRank(rank++);
+		}
+		// add the abstained back to list
+		for (Contestor contestor : absTaineds) {
+			contestors.add(contestor);
 		}
 	}
 

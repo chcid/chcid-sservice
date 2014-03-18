@@ -16,6 +16,20 @@ public class ContestorScore implements Serializable {
 	private int timeScoreTotal;
 	private int totalScore;
 
+	// private boolean isAbstained;
+
+	public boolean isAbstained() {
+		try {
+			return !getScoreMarking().getAbsence().equals("0");
+		} catch (NullPointerException e) {
+		}
+		return false;
+	}
+
+	public void setAbstained(boolean isAbstained) {
+		// this.isAbstained = isAbstained;
+	}
+
 	public int getTotalScore() {
 		totalScore = getScoreMarkingTotal() + getSpeechScoreTotal()
 				+ getTimeScoreTotal();
@@ -23,7 +37,7 @@ public class ContestorScore implements Serializable {
 	}
 
 	public void setTotalScore(int totalScore) {
-		//this.totalScore = totalScore;
+		// this.totalScore = totalScore;
 	}
 
 	public int getSpeechScoreTotal() {

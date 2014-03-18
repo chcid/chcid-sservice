@@ -23,6 +23,15 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	private int totalTimeScore;
 	private int finalScore;
 	private int finalRank;
+	private boolean isAbstained;
+
+	public boolean isAbstained() {
+		return isAbstained;
+	}
+
+	public void setAbstained(boolean isAbstained) {
+		this.isAbstained = isAbstained;
+	}
 
 	public int getFinalRank() {
 		return finalRank;
@@ -99,6 +108,7 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 			try {
 				if ("2".equals(contestorScore.getJudge().getRole().getIdrole())) {
 					totalScoreMarking += contestorScore.getScoreMarkingTotal();
+					setAbstained(contestorScore.isAbstained());
 				}
 			} catch (NullPointerException e) {
 				// null pointer is ok here
