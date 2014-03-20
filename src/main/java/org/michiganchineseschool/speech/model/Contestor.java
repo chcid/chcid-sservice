@@ -198,6 +198,36 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		this.scoreMarking = scoreMarking;
 	}
 
+	private float getAverageRuleItemScoreByPriority(int priority) {
+		if (null == contestorScores) {
+			return 0;
+		}
+		float count = 0;
+		float total = 0;
+		for (ContestorScore contestorScore : contestorScores) {
+			try {
+				if ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
+					for (SpeechScore speechScore : contestorScore
+							.getSpeechScores()) {
+						if (priority == speechScore.getScoreRuleItem()
+								.getPriority()) {
+							if (0 != speechScore.getScore()) {
+								total += speechScore.getScore();
+								count++;
+							}
+						}
+					}
+				}
+			} catch (NullPointerException e) {
+				// null pointer is ok here
+			}
+		}
+		if (0 != count) {
+			return (total / count);
+		}
+		return 0;
+	}
+
 	public int getTotalScore() {
 		totalScore = 0;
 		try {
@@ -265,6 +295,20 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 
 	public int compareTo(Contestor compareContestor) {
 		int finalScore = compareContestor.getFinalScore();
-		return finalScore - this.getFinalScore();
+		if (finalScore != this.getFinalScore()) {
+			return finalScore - this.getFinalScore();
+		}
+		// Compare the Average of #A then #B then #C in the
+		for (int priority = 1; priority <= getScoreRuleItemSums().size(); priority++) {
+
+			float pScore = 1000 * compareContestor
+					.getAverageRuleItemScoreByPriority(priority);
+			float thisPScore = 1000 * this
+					.getAverageRuleItemScoreByPriority(priority);
+			if (pScore != thisPScore) {
+				return (int) (pScore - thisPScore);
+			}
+		}
+		return 0;
 	}
 }
