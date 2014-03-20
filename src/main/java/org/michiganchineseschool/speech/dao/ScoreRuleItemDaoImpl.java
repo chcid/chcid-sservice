@@ -12,12 +12,13 @@ public class ScoreRuleItemDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void insert(ScoreRuleItem record) throws Exception {
-		String sql = "INSERT INTO " + TableName
-				+ " ( IDSCORE_RULE, NAME, WEIGHT ) VALUES ( ?, ?, ? )";
+		String sql = "INSERT INTO "
+				+ TableName
+				+ " ( IDSCORE_RULE, NAME, WEIGHT, PRIORITY ) VALUES ( ?, ?, ?, ? )";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { scoreRuleIdNullFilter(record), record.getName(),
-						record.getWeight() });
+						record.getWeight(), record.getPriority() });
 	}
 
 	private String scoreRuleIdNullFilter(ScoreRuleItem record) {
@@ -30,13 +31,15 @@ public class ScoreRuleItemDaoImpl extends BaseDaoImpl implements
 
 	@Override
 	public void update(ScoreRuleItem record) throws Exception {
-		String sql = "UPDATE " + TableName
-				+ " SET IDSCORE_RULE = ?, NAME = ?, WEIGHT = ? WHERE ID"
+		String sql = "UPDATE "
+				+ TableName
+				+ " SET IDSCORE_RULE = ?, NAME = ?, WEIGHT = ?, PRIORITY = ? WHERE ID"
 				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { scoreRuleIdNullFilter(record), record.getName(),
-						record.getWeight(), record.getIdscore_rule_item() });
+						record.getWeight(), record.getPriority(),
+						record.getIdscore_rule_item() });
 	}
 
 	@Override

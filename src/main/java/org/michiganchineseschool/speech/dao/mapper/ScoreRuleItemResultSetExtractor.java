@@ -19,6 +19,7 @@ public class ScoreRuleItemResultSetExtractor implements
 		ScoreRule scoreRule = new ScoreRule();
 		scoreRule.setIdscore_rule(rs.getString("IDSCORE_RULE"));
 		record.setScoreRule(scoreRule);
+		record.setPriority(rs.getInt("PRIORITY"));
 		return record;
 	}
 }

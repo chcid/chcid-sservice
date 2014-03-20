@@ -9,6 +9,15 @@ public class ScoreRuleItem implements Serializable {
 	private int weight;
 	private ScoreRule scoreRule;
 	private SpeechScore speechScore;
+	private int priority;
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
 
 	public SpeechScore getSpeechScore() {
 		return speechScore;
