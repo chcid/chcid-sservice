@@ -12,7 +12,7 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 	public void insert(ScoreMarking record) throws Exception {
 		String sql = "INSERT INTO "
 				+ TableName
-				+ " ( IDCONTESTOR_SCORE, ROLL_CALL_MARKING, FLASH_LIGHT_MARKING, AUDIENCE_HELPER, ABSENCE ) VALUES ( ?, ?, ?, ?, ? )";
+				+ " ( IDCONTESTOR_SCORE, ROLL_CALL_MARKING, FLASH_LIGHT_MARKING, AUDIENCE_HELPER, ABSENCE, PHONE_USED ) VALUES ( ?, ?, ?, ?, ?, ? )";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] {
@@ -20,14 +20,15 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 								"contestor_score", "ContestorScore"),
 						record.getRollCallMarking(),
 						record.getFlashLightMarking(),
-						record.getAudienceHelper(), record.getAbsence() });
+						record.getAudienceHelper(), record.getAbsence(),
+						record.getPhoneUsed() });
 	}
 
 	@Override
 	public void update(ScoreMarking record) throws Exception {
 		String sql = "UPDATE "
 				+ TableName
-				+ " SET IDCONTESTOR_SCORE = ?, ROLL_CALL_MARKING = ?, FLASH_LIGHT_MARKING = ?, AUDIENCE_HELPER = ?, ABSENCE = ? WHERE ID"
+				+ " SET IDCONTESTOR_SCORE = ?, ROLL_CALL_MARKING = ?, FLASH_LIGHT_MARKING = ?, AUDIENCE_HELPER = ?, ABSENCE = ?, PHONE_USED = ? WHERE ID"
 				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
@@ -37,7 +38,7 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 						record.getRollCallMarking(),
 						record.getFlashLightMarking(),
 						record.getAudienceHelper(), record.getAbsence(),
-						record.getIdscore_marking() });
+						record.getPhoneUsed(), record.getIdscore_marking() });
 	}
 
 	@Override
@@ -84,8 +85,8 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 		if (null == id) {
 			return new ScoreMarking();
 		}
-		String sql = "Select * FROM " + TableName + " WHERE IDCONTESTOR_SCORE = "
-				+ id;
+		String sql = "Select * FROM " + TableName
+				+ " WHERE IDCONTESTOR_SCORE = " + id;
 		return getJdbcTemplate().queryForObject(sql,
 				new ScoreMarkingRowMapper());
 	}

@@ -884,10 +884,26 @@ public class DatabaseServiceImpl implements DatabaseService {
 	public List<Contestor> getContestorScoreReportByContestGroup(String id)
 			throws Exception {
 		List<Contestor> contestors = getContestorDao().selectByContestGroup(id);
+		setContestGroupForContestors(contestors);
 		setContestorScoreForContestors(contestors);
 		setStudentsForContestors(contestors);
 		setFinalRankForContestors(contestors);
 		return contestors;
+	}
+
+	private void setContestGroupForContestors(List<Contestor> contestors)
+			throws Exception {
+		for (Contestor contestor : contestors) {
+			setContestGroupForContestor(contestor);
+		}
+
+	}
+
+	private void setContestGroupForContestor(Contestor contestor)
+			throws Exception {
+		contestor.setContestGroup(getContestGroupById(contestor
+				.getContestGroup().getIdcontest_group()));
+		// setScoreCountingTypeForContestGroup(contestor.getContestGroup());
 	}
 
 	private void setFinalRankForContestors(List<Contestor> contestors)
@@ -1005,6 +1021,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 			throws Exception {
 		for (ContestGroup contestGroup : contestGroups) {
 			setScoreRuleForContestGroup(contestGroup);
+			setScoreCountingTypeForContestGroup(contestGroup);
 		}
 	}
 }

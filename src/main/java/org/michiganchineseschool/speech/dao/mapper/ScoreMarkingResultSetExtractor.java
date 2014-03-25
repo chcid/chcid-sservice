@@ -21,6 +21,7 @@ public class ScoreMarkingResultSetExtractor implements
 		record.setFlashLightMarking(rs.getString("FLASH_LIGHT_MARKING"));
 		record.setAudienceHelper(rs.getString("AUDIENCE_HELPER"));
 		record.setAbsence(rs.getString("ABSENCE"));
+		record.setPhoneUsed(rs.getString("PHONE_USED"));
 		return record;
 	}
 }

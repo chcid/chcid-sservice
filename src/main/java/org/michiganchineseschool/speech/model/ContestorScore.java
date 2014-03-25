@@ -11,10 +11,10 @@ public class ContestorScore implements Serializable {
 	private List<SpeechScore> speechScores;
 	private ScoreMarking scoreMarking;
 	private TimeScore timeScore;
-	private int speechScoreTotal;
+	private float speechScoreTotal;
 	private int scoreMarkingTotal;
 	private int timeScoreTotal;
-	private int totalScore;
+	private float totalScore;
 
 	// private boolean isAbstained;
 
@@ -30,7 +30,7 @@ public class ContestorScore implements Serializable {
 		// this.isAbstained = isAbstained;
 	}
 
-	public int getTotalScore() {
+	public float getTotalScore() {
 		totalScore = getScoreMarkingTotal() + getSpeechScoreTotal()
 				+ getTimeScoreTotal();
 		return totalScore;
@@ -40,12 +40,12 @@ public class ContestorScore implements Serializable {
 		// this.totalScore = totalScore;
 	}
 
-	public int getSpeechScoreTotal() {
+	public float getSpeechScoreTotal() {
 		speechScoreTotal = 0;
 		try {
 			for (SpeechScore speechScore : speechScores) {
 				speechScoreTotal += speechScore.getScore()
-						* speechScore.getScoreRuleItem().getWeight() / 100;
+						* speechScore.getScoreRuleItem().getWeight() / 100f;
 			}
 		} catch (NullPointerException e) {
 			// null pointer is ok here
@@ -62,7 +62,8 @@ public class ContestorScore implements Serializable {
 			scoreMarkingTotal = Integer.parseInt(scoreMarking
 					.getAudienceHelper())
 					+ Integer.parseInt(scoreMarking.getFlashLightMarking())
-					+ Integer.parseInt(scoreMarking.getRollCallMarking());
+					+ Integer.parseInt(scoreMarking.getRollCallMarking())
+					+ Integer.parseInt(scoreMarking.getPhoneUsed());
 		} catch (NullPointerException e) {
 			// null pointer is ok here
 		}

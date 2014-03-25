@@ -12,16 +12,16 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	private int contestOrder;
 	private List<Student> students;
 	private List<ScoreRuleItem> scoreRuleItems;
-	private int totalScore;
+	private float totalScore;
 	private TimeScore timeScore;
 	private ScoreMarking scoreMarking;
 	// //////////////////////
 	// the following are for report
 	private List<ContestorScore> contestorScores;
-	private int totalSpeechScore;
+	private float totalSpeechScore;
 	private int totalScoreMarking;
 	private int totalTimeScore;
-	private int finalScore;
+	private float finalScore;
 	private int finalRank;
 	private boolean isAbstained;
 
@@ -66,22 +66,56 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 				continue;
 			}
 			for (SpeechScore speechScore : speechScores) {
+				if (0 >= speechScore.getScore()) {
+					continue;
+				}
 				ScoreRuleItem sri = findTheScoreRuleItem(
 						speechScore.getScoreRuleItem(), scoreRuleItemSums);
 				if (null == sri) {
 					sri = speechScore.getScoreRuleItem();
 					SpeechScore sc = new SpeechScore();
 					sc.setScore(speechScore.getScore());
+					sc.setMax((int) speechScore.getScore());
+					sc.setMin((int) speechScore.getScore());
 					sri.setSpeechScore(sc);
 					scoreRuleItemSums.add(sri);
 				} else {
 					sri.getSpeechScore().setScore(
 							sri.getSpeechScore().getScore()
 									+ speechScore.getScore());
-
+					if (speechScore.getScore() > sri.getSpeechScore().getMax()) {
+						sri.getSpeechScore().setMax(
+								(int) speechScore.getScore());
+					} else if (0 < speechScore.getScore()
+							&& speechScore.getScore() < sri.getSpeechScore()
+									.getMin()) {
+						sri.getSpeechScore().setMin(
+								(int) speechScore.getScore());
+					}
 				}
+				sri.getSpeechScore().setNonZeroCount(
+						sri.getSpeechScore().getNonZeroCount() + 1);
 			}
 		}
+
+		// get rid of the MAX and MIN
+		for (ScoreRuleItem scoreRuleItem : scoreRuleItemSums) {
+			float score = scoreRuleItem.getSpeechScore().getScore();
+			int nonZeroCount = scoreRuleItem.getSpeechScore().getNonZeroCount();
+			if ("2".equals(getContestGroup().getScoreCountingType()
+					.getIdscore_counting_type())) {
+				score -= (scoreRuleItem.getSpeechScore().getMax() + scoreRuleItem
+						.getSpeechScore().getMin());
+				nonZeroCount -= 2;
+			}
+			if (0 != nonZeroCount) {
+				score /= nonZeroCount;
+			} else {
+				score = 0;
+			}
+			scoreRuleItem.getSpeechScore().setScore(score);
+		}
+
 		return scoreRuleItemSums;
 	}
 
@@ -89,7 +123,7 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		// this.scoreRuleItemSums = scoreRuleItemSums;
 	}
 
-	public int getFinalScore() {
+	public float getFinalScore() {
 		finalScore = getTotalScoreMarking() + getTotalSpeechScore()
 				+ getTotalTimeScore();
 		return finalScore;
@@ -142,20 +176,23 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		// this.totalTimeScore = totalTimeScore;
 	}
 
-	public int getTotalSpeechScore() {
+	public float getTotalSpeechScore() {
 		totalSpeechScore = 0;
-		if (null == contestorScores) {
+		List<ScoreRuleItem> items = getScoreRuleItemSums();
+		if (null == items) {
 			return 0;
 		}
-		for (ContestorScore contestorScore : contestorScores) {
-			try {
-				if ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
-					totalSpeechScore += contestorScore.getSpeechScoreTotal();
-				}
-			} catch (NullPointerException e) {
-				// null pointer is ok here
-			}
+		for (ScoreRuleItem scoreRuleItem : items) {
+			totalSpeechScore += scoreRuleItem.getSpeechScore().getScore()
+					* scoreRuleItem.getWeight() / 100f;
 		}
+		/*
+		 * if (null == contestorScores) { return 0; } for (ContestorScore
+		 * contestorScore : contestorScores) { try { if
+		 * ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
+		 * totalSpeechScore += contestorScore.getSpeechScoreTotal(); } } catch
+		 * (NullPointerException e) { // null pointer is ok here } }
+		 */
 
 		return totalSpeechScore;
 	}
@@ -228,12 +265,12 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		return 0;
 	}
 
-	public int getTotalScore() {
+	public float getTotalScore() {
 		totalScore = 0;
 		try {
 			for (ScoreRuleItem scoreRuleItem : getScoreRuleItems()) {
 				totalScore += scoreRuleItem.getSpeechScore().getScore()
-						* scoreRuleItem.getWeight() / 100;
+						* scoreRuleItem.getWeight() / 100f;
 			}
 		} catch (NullPointerException e) {
 			// null pointer is fine here
@@ -294,9 +331,10 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	}
 
 	public int compareTo(Contestor compareContestor) {
-		int finalScore = compareContestor.getFinalScore();
-		if (finalScore != this.getFinalScore()) {
-			return finalScore - this.getFinalScore();
+		float finalScore = compareContestor.getFinalScore();
+		if (finalScore * 10000f != this.getFinalScore() * 10000f) {
+			return (int) (finalScore * 10000f)
+					- (int) (this.getFinalScore() * 10000f);
 		}
 		// Compare the Average of #A then #B then #C in the
 		for (int priority = 1; priority <= getScoreRuleItemSums().size(); priority++) {

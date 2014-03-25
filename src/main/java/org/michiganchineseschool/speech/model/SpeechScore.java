@@ -7,7 +7,34 @@ public class SpeechScore implements Serializable {
 	private String idspeech_score;
 	private ContestorScore contestorScore;
 	private ScoreRuleItem scoreRuleItem;
-	private int score;
+	private float score;
+	private int max;
+	private int min;
+	private int nonZeroCount;
+
+	public int getNonZeroCount() {
+		return nonZeroCount;
+	}
+
+	public void setNonZeroCount(int nonZeroCount) {
+		this.nonZeroCount = nonZeroCount;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
 
 	public String getIdspeech_score() {
 		return idspeech_score;
@@ -33,11 +60,11 @@ public class SpeechScore implements Serializable {
 		this.scoreRuleItem = scoreRuleItem;
 	}
 
-	public int getScore() {
+	public float getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(float score) {
 		this.score = score;
 	}
 

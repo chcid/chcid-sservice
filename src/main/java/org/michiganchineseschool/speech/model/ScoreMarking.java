@@ -10,6 +10,15 @@ public class ScoreMarking implements Serializable {
 	private int flashLightMarking;
 	private int audienceHelper;
 	private int absence;
+	private int phoneUsed;
+
+	public String getPhoneUsed() {
+		return String.valueOf(phoneUsed);
+	}
+
+	public void setPhoneUsed(String phoneUsed) {
+		this.phoneUsed = Integer.parseInt(phoneUsed);
+	}
 
 	public String getIdscore_marking() {
 		return idscore_marking;
