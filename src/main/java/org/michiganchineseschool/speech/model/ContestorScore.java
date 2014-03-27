@@ -79,6 +79,9 @@ public class ContestorScore implements Serializable {
 		try {
 			int totalSecond = timeScore.getMinute() * 60
 					+ timeScore.getSecond();
+			if (0 == totalSecond) {
+				return 0;
+			}
 			if (totalSecond > getJudge().getContestGroup().getTimeLimitRule()
 					.getMaxLimit()
 					|| totalSecond < getJudge().getContestGroup()

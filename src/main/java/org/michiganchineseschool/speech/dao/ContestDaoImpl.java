@@ -10,16 +10,20 @@ public class ContestDaoImpl extends BaseDaoImpl implements ContestDao {
 
 	@Override
 	public void insert(Contest record) throws Exception {
-		String sql = "INSERT INTO " + TableName + " ( NAME ) VALUES ( ? )";
-		getJdbcTemplate().update(sql, new Object[] { record.getName() });
+		String sql = "INSERT INTO " + TableName
+				+ " ( NAME, ACTIVE ) VALUES ( ?, ? )";
+		getJdbcTemplate().update(sql,
+				new Object[] { record.getName(), record.getActive() });
 	}
 
 	@Override
 	public void update(Contest record) throws Exception {
-		String sql = "UPDATE " + TableName + " SET NAME = ? WHERE ID"
-				+ TableName + " = ?";
-		getJdbcTemplate().update(sql,
-				new Object[] { record.getName(), record.getIdcontest() });
+		String sql = "UPDATE " + TableName
+				+ " SET NAME = ?, ACTIVE = ? WHERE ID" + TableName + " = ?";
+		getJdbcTemplate().update(
+				sql,
+				new Object[] { record.getName(), record.getActive(),
+						record.getIdcontest() });
 	}
 
 	@Override

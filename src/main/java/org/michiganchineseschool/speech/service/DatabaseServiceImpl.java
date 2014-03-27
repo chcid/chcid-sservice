@@ -903,6 +903,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 			throws Exception {
 		contestor.setContestGroup(getContestGroupById(contestor
 				.getContestGroup().getIdcontest_group()));
+		//setScoreRuleForContestGroup(contestor.getContestGroup());
 		// setScoreCountingTypeForContestGroup(contestor.getContestGroup());
 	}
 
@@ -1014,7 +1015,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 		List<ContestGroup> contestGroups = getContestGroupDao()
 				.selectByActivateContest();
 		setScoreRuleForContestGroups(contestGroups);
+		setTimeLimitRuleForContestGroups(contestGroups);
 		return contestGroups;
+	}
+
+	private void setTimeLimitRuleForContestGroups(
+			List<ContestGroup> contestGroups) throws Exception {
+		for (ContestGroup contestGroup : contestGroups) {
+			setTimeLimitRuleForContestGroup(contestGroup);
+		}
 	}
 
 	private void setScoreRuleForContestGroups(List<ContestGroup> contestGroups)

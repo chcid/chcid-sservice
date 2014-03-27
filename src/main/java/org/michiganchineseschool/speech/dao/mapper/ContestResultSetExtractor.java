@@ -13,6 +13,7 @@ public class ContestResultSetExtractor implements ResultSetExtractor<Contest> {
 		Contest record = new Contest();
 		record.setIdcontest(rs.getString("IDCONTEST"));
 		record.setName(rs.getString("NAME"));
+		record.setActive(rs.getInt("ACTIVE"));
 		return record;
 	}
 }

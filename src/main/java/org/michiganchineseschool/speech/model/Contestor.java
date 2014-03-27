@@ -56,19 +56,28 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	}
 
 	public List<ScoreRuleItem> getScoreRuleItemSums() {
+		List<ScoreRuleItem> scoreRuleItemSums = new ArrayList<ScoreRuleItem>();
 		if (null == contestorScores) {
 			return null;
 		}
-		List<ScoreRuleItem> scoreRuleItemSums = new ArrayList<ScoreRuleItem>();
+		// List<ScoreRuleItem> scoreRuleItemSums = new
+		// ArrayList<ScoreRuleItem>();
 		for (ContestorScore contestorScore : contestorScores) {
 			List<SpeechScore> speechScores = contestorScore.getSpeechScores();
 			if (null == speechScores) {
-				continue;
+			    continue;
+				//speechScores = new ArrayList<SpeechScore>();
+				//for (ScoreRuleItem scoreRuleItem : contestGroup.getScoreRule()
+				//		.getScoreRuleItems()) {
+				//	SpeechScore speechScore = new SpeechScore();
+				//	speechScore.setScoreRuleItem(scoreRuleItem);
+				//	speechScores.add(speechScore);
+				//}
 			}
 			for (SpeechScore speechScore : speechScores) {
-				if (0 >= speechScore.getScore()) {
-					continue;
-				}
+				// if (0 >= speechScore.getScore()) {
+				// continue;
+				// }
 				ScoreRuleItem sri = findTheScoreRuleItem(
 						speechScore.getScoreRuleItem(), scoreRuleItemSums);
 				if (null == sri) {
@@ -103,7 +112,7 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 			float score = scoreRuleItem.getSpeechScore().getScore();
 			int nonZeroCount = scoreRuleItem.getSpeechScore().getNonZeroCount();
 			if ("2".equals(getContestGroup().getScoreCountingType()
-					.getIdscore_counting_type())) {
+					.getIdscore_counting_type()) && 3 >= nonZeroCount) {
 				score -= (scoreRuleItem.getSpeechScore().getMax() + scoreRuleItem
 						.getSpeechScore().getMin());
 				nonZeroCount -= 2;
