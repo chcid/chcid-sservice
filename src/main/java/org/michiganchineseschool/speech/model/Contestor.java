@@ -65,19 +65,21 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		for (ContestorScore contestorScore : contestorScores) {
 			List<SpeechScore> speechScores = contestorScore.getSpeechScores();
 			if (null == speechScores) {
-			    continue;
-				//speechScores = new ArrayList<SpeechScore>();
-				//for (ScoreRuleItem scoreRuleItem : contestGroup.getScoreRule()
-				//		.getScoreRuleItems()) {
-				//	SpeechScore speechScore = new SpeechScore();
-				//	speechScore.setScoreRuleItem(scoreRuleItem);
-				//	speechScores.add(speechScore);
-				//}
+				continue;
+				// speechScores = new ArrayList<SpeechScore>();
+				// for (ScoreRuleItem scoreRuleItem :
+				// contestGroup.getScoreRule()
+				// .getScoreRuleItems()) {
+				// SpeechScore speechScore = new SpeechScore();
+				// speechScore.setScoreRuleItem(scoreRuleItem);
+				// speechScores.add(speechScore);
+				// }
 			}
 			for (SpeechScore speechScore : speechScores) {
 				// if (0 >= speechScore.getScore()) {
 				// continue;
 				// }
+
 				ScoreRuleItem sri = findTheScoreRuleItem(
 						speechScore.getScoreRuleItem(), scoreRuleItemSums);
 				if (null == sri) {
@@ -102,8 +104,10 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 								(int) speechScore.getScore());
 					}
 				}
-				sri.getSpeechScore().setNonZeroCount(
-						sri.getSpeechScore().getNonZeroCount() + 1);
+				if (0 < speechScore.getScore()) {
+					sri.getSpeechScore().setNonZeroCount(
+							sri.getSpeechScore().getNonZeroCount() + 1);
+				}
 			}
 		}
 
@@ -149,7 +153,7 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		}
 		for (ContestorScore contestorScore : contestorScores) {
 			try {
-				if ("2".equals(contestorScore.getJudge().getRole().getIdrole())) {
+				if ("4".equals(contestorScore.getJudge().getRole().getIdrole())) {
 					totalScoreMarking += contestorScore.getScoreMarkingTotal();
 					setAbstained(contestorScore.isAbstained());
 				}
@@ -252,7 +256,9 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		float total = 0;
 		for (ContestorScore contestorScore : contestorScores) {
 			try {
-				if ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
+				if ("1".equals(contestorScore.getJudge().getRole().getIdrole())
+						|| "4".equals(contestorScore.getJudge().getRole()
+								.getIdrole())) {
 					for (SpeechScore speechScore : contestorScore
 							.getSpeechScores()) {
 						if (priority == speechScore.getScoreRuleItem()

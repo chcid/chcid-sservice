@@ -730,7 +730,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 				// Duplicated Key is fine here
 			}
 		}
-		if ("1".equals(idrole)) {
+		if ("1".equals(idrole) || "4".equals(idrole)) {
 			// Judge
 			// TODO
 			// need to improve the hard coded role id
@@ -754,37 +754,43 @@ public class DatabaseServiceImpl implements DatabaseService {
 					}
 				}
 			}
-		} else if ("2".equals(idrole)) {
+		}
+		if ("2".equals(idrole) || "4".equals(idrole)) {
 			// Timer
 			// We need to insert empty record to TimeScore and ScoreMarking
 			for (ContestorScore contestorScore : contestorScores) {
 				// to get the idcontest_score back
 				contestorScore = getContestorScoreDao().select(contestorScore);
 				// insert to time_score
-				try {
-					TimeScore timeScore = new TimeScore();
-					timeScore.setContestorScore(contestorScore);
-					getTimeScoreDao().insert(timeScore);
-				} catch (DuplicateKeyException e) {
-					// exception is ok here
-				}
-				try {
-					// insert to ScoreMarking
-					ScoreMarking scoreMarking = new ScoreMarking();
-					scoreMarking.setContestorScore(contestorScore);
-					getScoreMarkingDao().insert(scoreMarking);
-				} catch (DuplicateKeyException e) {
-					// Duplicated Key exception is fine here
+				if ("2".equals(idrole)) {
+					// timer
+					try {
+						TimeScore timeScore = new TimeScore();
+						timeScore.setContestorScore(contestorScore);
+						getTimeScoreDao().insert(timeScore);
+					} catch (DuplicateKeyException e) {
+						// exception is ok here
+					}
+				} else {
+					// for Chief Judge
+					try {
+						// insert to ScoreMarking
+						ScoreMarking scoreMarking = new ScoreMarking();
+						scoreMarking.setContestorScore(contestorScore);
+						getScoreMarkingDao().insert(scoreMarking);
+					} catch (DuplicateKeyException e) {
+						// Duplicated Key exception is fine here
+					}
 				}
 			}
 		}
-
 		List<Contestor> contestors = getContestorDao().selectByContestGroup(
 				idcontestGroup);
 		setStudentsForContestors(contestors);
-		if ("1".equals(idrole)) {
+		if ("1".equals(idrole) || "4".equals(idrole)) {
 			setScoreRuleItemsForContestor(contestors, idstaff, idrole);
-		} else if ("2".equals(idrole)) {
+		}
+		if ("2".equals(idrole) || "4".equals(idrole)) {
 			setScoreMarkingAndTimeScoreForContestor(contestors, idstaff, idrole);
 		}
 		return contestors;
@@ -794,12 +800,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 			List<Contestor> contestors, String idstaff, String idrole)
 			throws Exception {
 		for (Contestor contestor : contestors) {
-			contestor.setScoreMarking(getScoreMarkingDao()
-					.selectByContestorStaffRole(contestor.getIdcontestor(),
-							idrole, idstaff));
-			contestor.setTimeScore(getTimeScoreDao()
-					.selectByContestorStaffRole(contestor.getIdcontestor(),
-							idrole, idstaff));
+			if ("4".equals(idrole)) {
+				contestor.setScoreMarking(getScoreMarkingDao()
+						.selectByContestorStaffRole(contestor.getIdcontestor(),
+								idrole, idstaff));
+			} else {
+				contestor.setTimeScore(getTimeScoreDao()
+						.selectByContestorStaffRole(contestor.getIdcontestor(),
+								idrole, idstaff));
+			}
 		}
 	}
 
@@ -903,7 +912,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 			throws Exception {
 		contestor.setContestGroup(getContestGroupById(contestor
 				.getContestGroup().getIdcontest_group()));
-		//setScoreRuleForContestGroup(contestor.getContestGroup());
+		// setScoreRuleForContestGroup(contestor.getContestGroup());
 		// setScoreCountingTypeForContestGroup(contestor.getContestGroup());
 	}
 
@@ -971,6 +980,10 @@ public class DatabaseServiceImpl implements DatabaseService {
 		} else if ("2".equals(contestorScore.getJudge().getRole().getIdrole())) {
 			// timer judge
 			setupTimeScoreForContestorScore(contestorScore);
+			// setupScoreMarkingForContestorScore(contestorScore);
+		} else if ("4".equals(contestorScore.getJudge().getRole().getIdrole())) {
+			// Chief Judge
+			setupSpeechScoresForContestorScore(contestorScore);
 			setupScoreMarkingForContestorScore(contestorScore);
 		}
 	}
