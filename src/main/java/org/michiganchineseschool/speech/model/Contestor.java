@@ -116,7 +116,7 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 			float score = scoreRuleItem.getSpeechScore().getScore();
 			int nonZeroCount = scoreRuleItem.getSpeechScore().getNonZeroCount();
 			if ("2".equals(getContestGroup().getScoreCountingType()
-					.getIdscore_counting_type()) && 3 >= nonZeroCount) {
+					.getIdscore_counting_type()) && 3 <= nonZeroCount) {
 				score -= (scoreRuleItem.getSpeechScore().getMax() + scoreRuleItem
 						.getSpeechScore().getMin());
 				nonZeroCount -= 2;
