@@ -2,6 +2,8 @@ package org.michiganchineseschool.speech.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Contestor implements Serializable, Comparable<Contestor> {
@@ -189,25 +191,60 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		// this.totalTimeScore = totalTimeScore;
 	}
 
+	/**
+	 * @return
+	 */
 	public float getTotalSpeechScore() {
 		totalSpeechScore = 0;
 		List<ScoreRuleItem> items = getScoreRuleItemSums();
-		if (null == items) {
+		// if (null == items) {
+		// return 0;
+		// }
+		// for (ScoreRuleItem scoreRuleItem : items) {
+		// totalSpeechScore += scoreRuleItem.getSpeechScore().getScore()
+		// * scoreRuleItem.getWeight() / 100f;
+		// }
+
+		if (null == contestorScores) {
 			return 0;
 		}
-		for (ScoreRuleItem scoreRuleItem : items) {
-			totalSpeechScore += scoreRuleItem.getSpeechScore().getScore()
-					* scoreRuleItem.getWeight() / 100f;
-		}
-		/*
-		 * if (null == contestorScores) { return 0; } for (ContestorScore
-		 * contestorScore : contestorScores) { try { if
-		 * ("1".equals(contestorScore.getJudge().getRole().getIdrole())) {
-		 * totalSpeechScore += contestorScore.getSpeechScoreTotal(); } } catch
-		 * (NullPointerException e) { // null pointer is ok here } }
-		 */
+		// int nonZeroCount = 0;
+		List<ContestorScore> sortingList = new ArrayList<ContestorScore>();
+		float max = -100f;
+		float min = 200f;
 
-		return totalSpeechScore;
+		for (ContestorScore contestorScore : contestorScores) {
+			try {
+				if ("1".equals(contestorScore.getJudge().getRole().getIdrole())
+						|| "4".equals(contestorScore.getJudge().getRole()
+								.getIdrole())) {
+					if (0 < contestorScore.getSpeechScoreTotal()) {
+						totalSpeechScore += contestorScore
+								.getSpeechScoreTotal();
+						sortingList.add(contestorScore);
+					}
+				}
+			} catch (NullPointerException e) { // null pointer is ok here
+			}
+		}
+		if (0 == sortingList.size()) {
+			return 0;
+		}
+		// sort the list to get the Max and min
+		Collections.sort(sortingList);
+		sortingList.get(0).setJudgeMax(true);
+		sortingList.get(sortingList.size() - 1).setJudgeMin(true);
+
+		if (!"2".equals(getContestGroup().getScoreCountingType()
+				.getIdscore_counting_type()) || 2 >= sortingList.size()) {
+			// is not get rid of max and min
+			// or too few judge to do the geting rid of max and min
+			return totalSpeechScore / (float) sortingList.size();
+		}
+
+		return (totalSpeechScore - sortingList.get(0).getSpeechScoreTotal() - sortingList
+				.get(sortingList.size() - 1).getSpeechScoreTotal())
+				/ (float) (sortingList.size() - 2);
 	}
 
 	public void setTotalSpeechScore(int totalSpeechScore) {

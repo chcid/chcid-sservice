@@ -3,7 +3,7 @@ package org.michiganchineseschool.speech.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class ContestorScore implements Serializable {
+public class ContestorScore implements Serializable, Comparable<ContestorScore> {
 	static final long serialVersionUID = 1l;
 	private String idcontestor_score;
 	private Contestor contestor;
@@ -16,7 +16,36 @@ public class ContestorScore implements Serializable {
 	private int timeScoreTotal;
 	private float totalScore;
 
+	private boolean isJudgeMax;
+	private boolean isJudgeMin;
+
+	private int judgeRank;
+
 	// private boolean isAbstained;
+
+	public int getJudgeRank() {
+		return judgeRank;
+	}
+
+	public void setJudgeRank(int judgeRank) {
+		this.judgeRank = judgeRank;
+	}
+
+	public boolean isJudgeMax() {
+		return isJudgeMax;
+	}
+
+	public void setJudgeMax(boolean isJudgeMax) {
+		this.isJudgeMax = isJudgeMax;
+	}
+
+	public boolean isJudgeMin() {
+		return isJudgeMin;
+	}
+
+	public void setJudgeMin(boolean isJudgeMin) {
+		this.isJudgeMin = isJudgeMin;
+	}
 
 	public boolean isAbstained() {
 		try {
@@ -146,4 +175,29 @@ public class ContestorScore implements Serializable {
 		this.judge = judge;
 	}
 
+	private float getScoreByPriority(int priority) {
+		for (SpeechScore speechScore : getSpeechScores()) {
+			if (priority == speechScore.getScoreRuleItem().getPriority()) {
+				return speechScore.getScore();
+			}
+		}
+		return 0;
+	}
+
+	public int compareTo(ContestorScore in) {
+		float inScore = in.getSpeechScoreTotal() * 1000;
+		float thisScore = getSpeechScoreTotal() * 1000;
+		if (inScore != thisScore) {
+			return (int) (inScore - thisScore);
+		}
+		int priority = 1;
+		for (SpeechScore speechScore : getSpeechScores()) {
+			thisScore = getScoreByPriority(priority) * 1000;
+			inScore = in.getScoreByPriority(priority++) * 1000;
+			if (inScore != thisScore) {
+				return (int) (inScore - thisScore);
+			}
+		}
+		return 0;
+	}
 }

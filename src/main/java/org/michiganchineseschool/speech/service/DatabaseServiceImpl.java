@@ -896,8 +896,54 @@ public class DatabaseServiceImpl implements DatabaseService {
 		setContestGroupForContestors(contestors);
 		setContestorScoreForContestors(contestors);
 		setStudentsForContestors(contestors);
+		setJudgeRankForContestors(contestors);
 		setFinalRankForContestors(contestors);
 		return contestors;
+	}
+
+	private void setJudgeRankForContestors(List<Contestor> contestors)
+			throws Exception {
+		Contestor contestor = contestors.get(0);
+		if (null == contestor || null == contestor.getContestorScores()) {
+			return;
+		}
+		for (ContestorScore contestorScore : contestor.getContestorScores()) {
+			if ("1".equals(contestorScore.getJudge().getRole().getIdrole())
+					|| "4".equals(contestorScore.getJudge().getRole()
+							.getIdrole())) {
+				// sort judg rank for ths contestor
+				setJudgeRankForContestor(
+						contestorScore.getJudge().getIdjudge(), contestors);
+			}
+		}
+
+	}
+
+	private void setJudgeRankForContestor(String idjudge,
+			List<Contestor> contestors) throws Exception {
+		List<ContestorScore> sortingList = new ArrayList<ContestorScore>();
+		for (Contestor contestor : contestors) {
+			sortingList.add(findContestorScoreByIdJudge(idjudge, contestor));
+		}
+		Collections.sort(sortingList);
+		int judgeRank = 1;
+		sortingList.get(0).setJudgeRank(judgeRank);
+		for (int i = 1; i < sortingList.size(); i++) {
+			if (0 != sortingList.get(i).compareTo(sortingList.get(i - 1))) {
+				judgeRank++;
+			}
+			sortingList.get(i).setJudgeRank(judgeRank);
+		}
+	}
+
+	private ContestorScore findContestorScoreByIdJudge(String idjudge,
+			Contestor contestor) throws Exception {
+		for (ContestorScore contestorScore : contestor.getContestorScores()) {
+			if (idjudge.equals(contestorScore.getJudge().getIdjudge())) {
+				return contestorScore;
+			}
+		}
+		return null;
 	}
 
 	private void setContestGroupForContestors(List<Contestor> contestors)
@@ -905,7 +951,6 @@ public class DatabaseServiceImpl implements DatabaseService {
 		for (Contestor contestor : contestors) {
 			setContestGroupForContestor(contestor);
 		}
-
 	}
 
 	private void setContestGroupForContestor(Contestor contestor)

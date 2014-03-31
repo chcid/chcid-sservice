@@ -11,6 +11,24 @@ public class SpeechScore implements Serializable {
 	private int max;
 	private int min;
 	private int nonZeroCount;
+	private boolean isJudgeMax;
+	private boolean isJudgeMin;
+
+	public boolean isJudgeMax() {
+		return isJudgeMax;
+	}
+
+	public void setJudgeMax(boolean isJudgeMax) {
+		this.isJudgeMax = isJudgeMax;
+	}
+
+	public boolean isJudgeMin() {
+		return isJudgeMin;
+	}
+
+	public void setJudgeMin(boolean isJudgeMin) {
+		this.isJudgeMin = isJudgeMin;
+	}
 
 	public int getNonZeroCount() {
 		return nonZeroCount;
