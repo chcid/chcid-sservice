@@ -808,6 +808,16 @@ public class DatabaseServiceImpl implements DatabaseService {
 				contestor.setTimeScore(getTimeScoreDao()
 						.selectByContestorStaffRole(contestor.getIdcontestor(),
 								idrole, idstaff));
+				TimeLimitRule timeLimitRule = getTimeLimitRuleById(getContestGroupById(
+						contestor.getContestGroup().getIdcontest_group())
+						.getTimeLimitRule().getIdtime_limit_rule());
+				int totalSecond = contestor.getTimeScore().getMinute() * 60
+						+ contestor.getTimeScore().getSecond();
+				if ((totalSecond > timeLimitRule.getMaxLimit() || totalSecond < timeLimitRule
+						.getMinLimit()) && totalSecond > 0) {
+					contestor.setJudgeTimeScore(-1);
+				}
+
 			}
 		}
 	}

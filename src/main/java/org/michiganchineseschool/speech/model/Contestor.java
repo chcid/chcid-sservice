@@ -2,7 +2,6 @@ package org.michiganchineseschool.speech.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +16,8 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	private float totalScore;
 	private TimeScore timeScore;
 	private ScoreMarking scoreMarking;
+
+	private int judgeTimeScore;
 	// //////////////////////
 	// the following are for report
 	private List<ContestorScore> contestorScores;
@@ -26,6 +27,14 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	private float finalScore;
 	private int finalRank;
 	private boolean isAbstained;
+
+	public int getJudgeTimeScore() {
+		return judgeTimeScore;
+	}
+
+	public void setJudgeTimeScore(int judgeTimeScore) {
+		this.judgeTimeScore = judgeTimeScore;
+	}
 
 	public boolean isAbstained() {
 		return isAbstained;
