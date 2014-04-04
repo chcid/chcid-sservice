@@ -341,6 +341,7 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 		} catch (NullPointerException e) {
 			// null pointer is fine here
 		}
+		totalScore = roundIt(totalScore);
 		return totalScore;
 	}
 
