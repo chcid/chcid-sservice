@@ -248,12 +248,17 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 				.getIdscore_counting_type()) || 2 >= sortingList.size()) {
 			// is not get rid of max and min
 			// or too few judge to do the geting rid of max and min
-			return totalSpeechScore / (float) sortingList.size();
+			return roundIt(totalSpeechScore / (float) sortingList.size());
 		}
 
-		return (totalSpeechScore - sortingList.get(0).getSpeechScoreTotal() - sortingList
-				.get(sortingList.size() - 1).getSpeechScoreTotal())
-				/ (float) (sortingList.size() - 2);
+		return roundIt((totalSpeechScore
+				- sortingList.get(0).getSpeechScoreTotal() - sortingList.get(
+				sortingList.size() - 1).getSpeechScoreTotal())
+				/ (float) (sortingList.size() - 2));
+	}
+
+	private float roundIt(float in) {
+		return Math.round(in * 10000) / 10000f;
 	}
 
 	public void setTotalSpeechScore(int totalSpeechScore) {

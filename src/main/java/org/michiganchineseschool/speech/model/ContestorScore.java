@@ -79,6 +79,7 @@ public class ContestorScore implements Serializable, Comparable<ContestorScore> 
 		} catch (NullPointerException e) {
 			// null pointer is ok here
 		}
+		speechScoreTotal = Math.round(speechScoreTotal * 100) / 100f;
 		return speechScoreTotal;
 	}
 
