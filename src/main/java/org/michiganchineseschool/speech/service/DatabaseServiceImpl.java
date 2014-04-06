@@ -793,7 +793,56 @@ public class DatabaseServiceImpl implements DatabaseService {
 		if ("2".equals(idrole) || "4".equals(idrole)) {
 			setScoreMarkingAndTimeScoreForContestor(contestors, idstaff, idrole);
 		}
+		if ("1".equals(idrole) || "4".equals(idrole)) {
+			// sort the judg ranking for Judge's scoring reference
+			sortRankingForJudgeScoringReference(contestors);
+		}
 		return contestors;
+	}
+
+	private void sortRankingForJudgeScoringReference(List<Contestor> contestors)
+			throws Exception {
+		// 1. take off the no score contestors
+		List<Contestor> noScoreContestors = new ArrayList<Contestor>();
+
+		for (Contestor contestor : contestors) {
+			contestor.setJudgeRanking(true);
+			if (0 == contestor.getTotalScore()) {
+				noScoreContestors.add(contestor);
+			}
+		}
+		for (Contestor contestor : noScoreContestors) {
+			contestors.remove(contestor);
+		}
+		Collections.sort(contestors);
+		int rank = 1;
+		if (0 < contestors.size()) {
+			contestors.get(0).setFinalRank(rank);
+			if (1 < contestors.size()) {
+				contestors.get(0).setScoreDiffAfter(
+						contestors.get(0).getTotalScore()
+								- contestors.get(1).getTotalScore());
+			}
+		}
+		for (int i = 1; i < contestors.size(); i++) {
+			if (contestors.get(i).compareTo(contestors.get(i - 1)) != 0) {
+				// only plus one for rank for real bigger score
+				rank++;
+			}
+			contestors.get(i).setFinalRank(rank);
+			contestors.get(i).setScoreDiffBefore(
+					contestors.get(i).getTotalScore()
+							- contestors.get(i - 1).getTotalScore());
+			if (i < contestors.size() - 1) {
+				contestors.get(i).setScoreDiffAfter(
+						contestors.get(i).getTotalScore()
+								- contestors.get(i + 1).getTotalScore());
+			}
+		}
+		// add the abstained back to list
+		for (Contestor contestor : noScoreContestors) {
+			contestors.add(contestor);
+		}
 	}
 
 	private void setScoreMarkingAndTimeScoreForContestor(

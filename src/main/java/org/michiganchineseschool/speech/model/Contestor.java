@@ -28,6 +28,34 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	private int finalRank;
 	private boolean isAbstained;
 
+	private boolean isJudgeRanking = false;
+	private float scoreDiffBefore;
+	private float scoreDiffAfter;
+
+	public float getScoreDiffBefore() {
+		return roundIt(scoreDiffBefore);
+	}
+
+	public void setScoreDiffBefore(float scoreDiffBefore) {
+		this.scoreDiffBefore = scoreDiffBefore;
+	}
+
+	public float getScoreDiffAfter() {
+		return roundIt(scoreDiffAfter);
+	}
+
+	public void setScoreDiffAfter(float scoreDiffAfter) {
+		this.scoreDiffAfter = scoreDiffAfter;
+	}
+
+	public boolean isJudgeRanking() {
+		return isJudgeRanking;
+	}
+
+	public void setJudgeRanking(boolean isJudgeRanking) {
+		this.isJudgeRanking = isJudgeRanking;
+	}
+
 	public int getJudgeTimeScore() {
 		return judgeTimeScore;
 	}
@@ -398,6 +426,10 @@ public class Contestor implements Serializable, Comparable<Contestor> {
 	}
 
 	public int compareTo(Contestor compareContestor) {
+		if (isJudgeRanking()) {
+			return (int) (compareContestor.getTotalScore() * 10000f)
+					- (int) (this.getTotalScore() * 10000f);
+		}
 		float finalScore = compareContestor.getFinalScore();
 		if (finalScore * 10000f != this.getFinalScore() * 10000f) {
 			return (int) (finalScore * 10000f)
