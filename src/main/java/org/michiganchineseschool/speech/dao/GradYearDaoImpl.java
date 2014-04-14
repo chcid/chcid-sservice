@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.GradYearRowMapper;
 import org.michiganchineseschool.speech.model.GradYear;
 
 public class GradYearDaoImpl extends BaseDaoImpl implements GradYearDao {
-	private final static String TableName = "GRAD_YEAR";
+	private final static String TableName = "grad_year";
 
 	@Override
 	public void insert(GradYear record) throws Exception {

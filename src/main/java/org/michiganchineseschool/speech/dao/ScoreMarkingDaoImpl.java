@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.ScoreMarkingRowMapper;
 import org.michiganchineseschool.speech.model.ScoreMarking;
 
 public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao {
-	private final static String TableName = "SCORE_MARKING";
+	private final static String TableName = "score_marking";
 
 	@Override
 	public void insert(ScoreMarking record) throws Exception {

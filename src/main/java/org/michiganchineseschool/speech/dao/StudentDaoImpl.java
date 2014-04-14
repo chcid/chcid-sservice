@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.StudentRowMapper;
 import org.michiganchineseschool.speech.model.Student;
 
 public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
-	private final static String TableName = "STUDENT";
+	private final static String TableName = "student";
 
 	@Override
 	public void insert(Student record) throws Exception {
@@ -66,7 +66,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
 
 	@Override
 	public List<Student> selectByContestor(String idcontestor) throws Exception {
-		String sql = "select s.* from speech.contestor_individual ci, speech.student s"
+		String sql = "select s.* from contestor_individual ci, student s"
 				+ " where ci.idstudent = s.idstudent"
 				+ " and ci.idcontestor = " + idcontestor;
 		return getJdbcTemplate().query(sql, new StudentRowMapper());

@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.TimeScoreRowMapper;
 import org.michiganchineseschool.speech.model.TimeScore;
 
 public class TimeScoreDaoImpl extends BaseDaoImpl implements TimeScoreDao {
-	private final static String TableName = "TIME_SCORE";
+	private final static String TableName = "time_score";
 
 	@Override
 	public void insert(TimeScore record) throws Exception {

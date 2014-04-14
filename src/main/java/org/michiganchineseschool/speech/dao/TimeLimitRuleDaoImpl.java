@@ -7,7 +7,7 @@ import org.michiganchineseschool.speech.model.TimeLimitRule;
 
 public class TimeLimitRuleDaoImpl extends BaseDaoImpl implements
 		TimeLimitRuleDao {
-	private final static String TableName = "TIME_LIMIT_RULE";
+	private final static String TableName = "time_limit_rule";
 
 	@Override
 	public void insert(TimeLimitRule record) throws Exception {

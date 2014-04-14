@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.ContestorRowMapper;
 import org.michiganchineseschool.speech.model.Contestor;
 
 public class ContestorDaoImpl extends BaseDaoImpl implements ContestorDao {
-	private final static String TableName = "CONTESTOR";
+	private final static String TableName = "contestor";
 
 	@Override
 	public void insert(Contestor record) throws Exception {

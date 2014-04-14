@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.RoleRowMapper;
 import org.michiganchineseschool.speech.model.Role;
 
 public class RoleDaoImpl extends BaseDaoImpl implements RoleDao {
-	private final static String TableName = "ROLE";
+	private final static String TableName = "role";
 
 	@Override
 	public void insert(Role record) throws Exception {

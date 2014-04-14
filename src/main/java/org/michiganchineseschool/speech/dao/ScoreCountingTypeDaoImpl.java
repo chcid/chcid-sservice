@@ -7,7 +7,7 @@ import org.michiganchineseschool.speech.model.ScoreCountingType;
 
 public class ScoreCountingTypeDaoImpl extends BaseDaoImpl implements
 		ScoreCountingTypeDao {
-	private final static String TableName = "SCORE_COUNTING_TYPE";
+	private final static String TableName = "score_counting_type";
 
 	@Override
 	public void insert(ScoreCountingType record) throws Exception {

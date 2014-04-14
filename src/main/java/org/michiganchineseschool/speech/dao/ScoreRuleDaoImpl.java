@@ -8,7 +8,7 @@ import org.michiganchineseschool.speech.dao.mapper.ScoreRuleRowMapper;
 import org.michiganchineseschool.speech.model.ScoreRule;
 
 public class ScoreRuleDaoImpl extends BaseDaoImpl implements ScoreRuleDao {
-	private final static String TableName = "SCORE_RULE";
+	private final static String TableName = "score_rule";
 
 	@Override
 	public void insert(ScoreRule record) throws Exception {

@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.LocationRowMapper;
 import org.michiganchineseschool.speech.model.ContestLocation;
 
 public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
-	private final static String TableName = "CONTEST_LOCATION";
+	private final static String TableName = "contest_location";
 
 	@Override
 	public void insert(ContestLocation record) throws Exception {

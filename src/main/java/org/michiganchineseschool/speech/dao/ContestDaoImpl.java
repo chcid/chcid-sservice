@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.ContestRowMapper;
 import org.michiganchineseschool.speech.model.Contest;
 
 public class ContestDaoImpl extends BaseDaoImpl implements ContestDao {
-	private final static String TableName = "CONTEST";
+	private final static String TableName = "contest";
 
 	@Override
 	public void insert(Contest record) throws Exception {

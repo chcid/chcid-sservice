@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.JudgeRowMapper;
 import org.michiganchineseschool.speech.model.Judge;
 
 public class JudgeDaoImpl extends BaseDaoImpl implements JudgeDao {
-	private final static String TableName = "JUDGE";
+	private final static String TableName = "judge";
 
 	@Override
 	public void insert(Judge record) throws Exception {

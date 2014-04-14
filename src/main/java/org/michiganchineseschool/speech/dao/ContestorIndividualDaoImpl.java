@@ -7,7 +7,7 @@ import org.michiganchineseschool.speech.model.ContestorIndividual;
 
 public class ContestorIndividualDaoImpl extends BaseDaoImpl implements
 		ContestorIndividualDao {
-	private final static String TableName = "CONTESTOR_INDIVIDUAL";
+	private final static String TableName = "contestor_individual";
 
 	@Override
 	public void insert(ContestorIndividual record) throws Exception {

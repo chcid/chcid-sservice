@@ -7,7 +7,7 @@ import org.michiganchineseschool.speech.model.ContestorScore;
 
 public class ContestorScoreDaoImpl extends BaseDaoImpl implements
 		ContestorScoreDao {
-	private final static String TableName = "CONTESTOR_SCORE";
+	private final static String TableName = "contestor_score";
 
 	@Override
 	public void insert(ContestorScore record) throws Exception {

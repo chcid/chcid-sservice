@@ -8,7 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 public class ScoreRuleItemDaoImpl extends BaseDaoImpl implements
 		ScoreRuleItemDao {
-	private final static String TableName = "SCORE_RULE_ITEM";
+	private final static String TableName = "score_rule_item";
 
 	@Override
 	public void insert(ScoreRuleItem record) throws Exception {
@@ -64,7 +64,7 @@ public class ScoreRuleItemDaoImpl extends BaseDaoImpl implements
 	@Override
 	public List<ScoreRuleItem> selectByContestGroup(String idcontestGroup)
 			throws Exception {
-		String sql = "select sri.* from speech.score_rule sr, speech.score_rule_item sri, speech.contest_group cg"
+		String sql = "select sri.* from score_rule sr, score_rule_item sri, contest_group cg"
 				+ " where sr.idscore_rule = sri.idscore_rule"
 				+ " and cg.idscore_rule = sr.idscore_rule"
 				+ " and cg.idcontest_group = " + idcontestGroup;

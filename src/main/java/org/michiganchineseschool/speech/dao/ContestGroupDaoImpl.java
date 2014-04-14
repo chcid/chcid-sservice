@@ -6,7 +6,7 @@ import org.michiganchineseschool.speech.dao.mapper.ContestGroupRowMapper;
 import org.michiganchineseschool.speech.model.ContestGroup;
 
 public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao {
-	private final static String TableName = "CONTEST_GROUP";
+	private final static String TableName = "contest_group";
 
 	@Override
 	public void insert(ContestGroup record) throws Exception {
@@ -80,7 +80,7 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 	@Override
 	public List<ContestGroup> selectListForLoginedStaff(String idstaff,
 			boolean isUnSubmitOnly) throws Exception {
-		String sql = "SELECT cg.*, r.idrole, j.idjudge FROM speech.contest c, speech.contest_group cg, speech.judge j, speech.staff s, speech.role r"
+		String sql = "SELECT cg.*, r.idrole, j.idjudge FROM contest c, contest_group cg, judge j, staff s, role r"
 				+ " where"
 				+ " c.idcontest = cg.idcontest"
 				+ " and cg.idcontest_group = j.idcontest_group"
@@ -99,7 +99,7 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 	public List<ContestGroup> selectByActivateContest() throws Exception {
 		String sql = "SELECT * FROM "
 				+ TableName
-				+ " cg, CONTEST c WHERE c.idcontest = cg.idcontest and c.active = 1";
+				+ " cg, contest c WHERE c.idcontest = cg.idcontest and c.active = 1";
 		return getJdbcTemplate().query(sql, new ContestGroupRowMapper());
 	}
 }

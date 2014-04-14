@@ -15,6 +15,7 @@ public class BaseDaoImpl {
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		jdbcTemplate.setResultsMapCaseInsensitive(true);
+		jdbcTemplate.setFetchSize(2048);
 		return jdbcTemplate;
 	}
 

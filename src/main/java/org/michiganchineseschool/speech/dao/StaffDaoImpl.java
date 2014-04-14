@@ -8,7 +8,7 @@ import org.michiganchineseschool.speech.model.Judge;
 import org.michiganchineseschool.speech.model.Staff;
 
 public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
-	private final static String TableName = "STAFF";
+	private final static String TableName = "staff";
 
 	@Override
 	public void insert(Staff record) throws Exception {
@@ -66,7 +66,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
 		String sql = "SELECT * from "
 				+ TableName
 				+ " WHERE IDSTAFF in ("
-				+ " SELECT distinct idstaff FROM CONTEST c, contest_group cg, judge j"
+				+ " SELECT distinct idstaff FROM contest c, contest_group cg, judge j"
 				+ " where c.idcontest = cg.idcontest"
 				+ " and cg.idcontest_group = j.idcontest_group"
 				+ " and c.active = 1)";

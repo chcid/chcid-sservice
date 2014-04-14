@@ -7,7 +7,7 @@ import org.michiganchineseschool.speech.model.SpeechScore;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 public class SpeechScoreDaoImpl extends BaseDaoImpl implements SpeechScoreDao {
-	private final static String TableName = "SPEECH_SCORE";
+	private final static String TableName = "speech_score";
 
 	@Override
 	public void insert(SpeechScore record) throws Exception {
