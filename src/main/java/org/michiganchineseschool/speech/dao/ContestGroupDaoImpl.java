@@ -87,7 +87,6 @@ public class ContestGroupDaoImpl extends BaseDaoImpl implements ContestGroupDao 
 				+ " and j.idstaff = s.idstaff"
 				+ " and j.idrole = r.idrole"
 				+ " and c.active = 1"
-				+ " and c.idcontest = 1"
 				+ " and s.idstaff = " + idstaff;
 		if (isUnSubmitOnly) {
 			sql += " and j.is_submit = 0";
