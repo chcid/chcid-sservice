@@ -93,7 +93,8 @@ public class ContestorScore implements Serializable, Comparable<ContestorScore> 
 					.getAudienceHelper())
 					+ Integer.parseInt(scoreMarking.getFlashLightMarking())
 					+ Integer.parseInt(scoreMarking.getRollCallMarking())
-					+ Integer.parseInt(scoreMarking.getPhoneUsed());
+					+ Integer.parseInt(scoreMarking.getPhoneUsed())
+					+ Integer.parseInt(scoreMarking.getSamePictureUsed());
 		} catch (NullPointerException e) {
 			// null pointer is ok here
 		}

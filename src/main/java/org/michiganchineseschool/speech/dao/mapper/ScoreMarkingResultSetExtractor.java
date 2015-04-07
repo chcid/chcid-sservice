@@ -22,6 +22,7 @@ public class ScoreMarkingResultSetExtractor implements
 		record.setAudienceHelper(rs.getString("AUDIENCE_HELPER"));
 		record.setAbsence(rs.getString("ABSENCE"));
 		record.setPhoneUsed(rs.getString("PHONE_USED"));
+		record.setSamePictureUsed(rs.getString("SAME_PICTURE_USED"));
 		return record;
 	}
 }

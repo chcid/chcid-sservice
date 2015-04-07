@@ -11,6 +11,15 @@ public class ScoreMarking implements Serializable {
 	private int audienceHelper;
 	private int absence;
 	private int phoneUsed;
+	private int samePictureUsed;
+	
+	public String getSamePictureUsed() {
+		return String.valueOf(samePictureUsed);
+	}
+
+	public void setSamePictureUsed(String samePictureUsed) {
+		this.samePictureUsed = Integer.parseInt(samePictureUsed);
+	}
 
 	public String getPhoneUsed() {
 		return String.valueOf(phoneUsed);

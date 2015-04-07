@@ -12,7 +12,7 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 	public void insert(ScoreMarking record) throws Exception {
 		String sql = "INSERT INTO "
 				+ TableName
-				+ " ( IDCONTESTOR_SCORE, ROLL_CALL_MARKING, FLASH_LIGHT_MARKING, AUDIENCE_HELPER, ABSENCE, PHONE_USED ) VALUES ( ?, ?, ?, ?, ?, ? )";
+				+ " ( IDCONTESTOR_SCORE, ROLL_CALL_MARKING, FLASH_LIGHT_MARKING, AUDIENCE_HELPER, ABSENCE, PHONE_USED, SAME_PICTURE_USED ) VALUES ( ?, ?, ?, ?, ?, ?, ? )";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] {
@@ -21,14 +21,14 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 						record.getRollCallMarking(),
 						record.getFlashLightMarking(),
 						record.getAudienceHelper(), record.getAbsence(),
-						record.getPhoneUsed() });
+						record.getPhoneUsed(), record.getSamePictureUsed() });
 	}
 
 	@Override
 	public void update(ScoreMarking record) throws Exception {
 		String sql = "UPDATE "
 				+ TableName
-				+ " SET IDCONTESTOR_SCORE = ?, ROLL_CALL_MARKING = ?, FLASH_LIGHT_MARKING = ?, AUDIENCE_HELPER = ?, ABSENCE = ?, PHONE_USED = ? WHERE ID"
+				+ " SET IDCONTESTOR_SCORE = ?, ROLL_CALL_MARKING = ?, FLASH_LIGHT_MARKING = ?, AUDIENCE_HELPER = ?, ABSENCE = ?, PHONE_USED = ?, SAME_PICTURE_USED = ? WHERE ID"
 				+ TableName + " = ?";
 		getJdbcTemplate().update(
 				sql,
@@ -38,7 +38,8 @@ public class ScoreMarkingDaoImpl extends BaseDaoImpl implements ScoreMarkingDao 
 						record.getRollCallMarking(),
 						record.getFlashLightMarking(),
 						record.getAudienceHelper(), record.getAbsence(),
-						record.getPhoneUsed(), record.getIdscore_marking() });
+						record.getPhoneUsed(), record.getSamePictureUsed(),
+						record.getIdscore_marking() });
 	}
 
 	@Override

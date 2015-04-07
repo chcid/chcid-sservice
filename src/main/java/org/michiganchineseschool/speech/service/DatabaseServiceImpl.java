@@ -1133,7 +1133,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 				.selectByActivateContest();
 		setScoreRuleForContestGroups(contestGroups);
 		setTimeLimitRuleForContestGroups(contestGroups);
+		setContestForContestGroups(contestGroups);
 		return contestGroups;
+	}
+
+	private void setContestForContestGroups(List<ContestGroup> contestGroups)
+			throws Exception {
+		for (ContestGroup contestGroup : contestGroups) {
+			setContestForContestGroup(contestGroup);
+		}
 	}
 
 	private void setTimeLimitRuleForContestGroups(
